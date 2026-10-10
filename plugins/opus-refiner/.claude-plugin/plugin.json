@@ -1,0 +1,10 @@
+{
+  "name": "opus-refiner",
+  "displayName": "Opus Refiner",
+  "version": "0.1.0",
+  "description": "Applies Anthropic's Opus 5.5 guidance: stop rules, destructive-command prompts, and skills for long runs, reviews, and checks.",
+  "author": { "name": "tuckcode", "url": "https://github.com/tuckcode" },
+  "repository": "https://github.com/tuckcode/toolbox",
+  "license": "MIT",
+  "keywords": ["opus", "workflow", "review", "subagents"]
+}

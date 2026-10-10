@@ -1,0 +1,19 @@
+{
+  "name": "toolbox",
+  "description": "Tuck's Claude Code plugins. Install only the plugins you want.",
+  "owner": { "name": "tuckcode", "url": "https://github.com/tuckcode" },
+  "plugins": [
+    {
+      "name": "opus-refiner",
+      "source": "./plugins/opus-refiner",
+      "description": "Applies Anthropic's Opus 5.5 guidance: stop rules, destructive-command prompts, and skills for long runs, reviews, and checks.",
+      "category": "workflow"
+    },
+    {
+      "name": "stepack",
+      "source": { "source": "github", "repo": "tuckcode/stepack" },
+      "description": "Plain, exact English for your agent: ASD-STE100 voice skills and lean-code skills.",
+      "category": "writing"
+    }
+  ]
+}
