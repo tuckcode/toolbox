@@ -1,7 +1,10 @@
 {
   "name": "toolbox",
   "description": "Tuck's Claude Code plugins. Install only the plugins you want.",
-  "owner": { "name": "tuckcode", "url": "https://github.com/tuckcode" },
+  "owner": {
+    "name": "tuckcode",
+    "url": "https://github.com/tuckcode"
+  },
   "plugins": [
     {
       "name": "opus-refiner",
@@ -11,7 +14,10 @@
     },
     {
       "name": "stepack",
-      "source": { "source": "github", "repo": "tuckcode/stepack" },
+      "source": {
+        "source": "url",
+        "url": "https://github.com/tuckcode/stepack.git"
+      },
       "description": "Plain, exact English for your agent: ASD-STE100 voice skills and lean-code skills.",
       "category": "writing"
     }
