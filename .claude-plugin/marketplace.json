@@ -13,6 +13,12 @@
       "category": "workflow"
     },
     {
+      "name": "code-review-flow",
+      "source": "./plugins/code-review-flow",
+      "description": "A code review process for agent-written code, based on how the Claude Code team reviews: verify first, vote on findings, tag severity, cap rounds, scale approval by risk, and turn incidents into evals.",
+      "category": "workflow"
+    },
+    {
       "name": "stepack",
       "source": {
         "source": "url",
