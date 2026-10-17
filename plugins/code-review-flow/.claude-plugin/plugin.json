@@ -1,0 +1,10 @@
+{
+  "name": "code-review-flow",
+  "displayName": "Code Review Flow",
+  "version": "0.1.0",
+  "description": "A code review process for agent-written code, based on how the Claude Code team reviews: verify first, vote on findings, tag severity, cap rounds, scale approval by risk, and turn incidents into evals.",
+  "author": { "name": "tuckcode", "url": "https://github.com/tuckcode" },
+  "repository": "https://github.com/tuckcode/toolbox",
+  "license": "MIT",
+  "keywords": ["code-review", "security-review", "evals", "pull-request", "subagents"]
+}

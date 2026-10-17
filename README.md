@@ -29,6 +29,7 @@ To get updates later:
 | Plugin | What it does |
 |---|---|
 | `opus-refiner` | Applies Anthropic's [Opus 5.5 guidance](https://claude.dev/blog/getting-the-most-out-of-opus-5-5/). Adds stop rules and end-of-run headings to each session, asks before destructive shell commands, and adds skills for long runs, subagent audits, reviews, and checks. |
+| `code-review-flow` | A code review process for agent-written code. Based on Anthropic's [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/). Adds skills to verify work, review with a vote of verifiers, run a security pass, cap review rounds, pick a risk tier, write PR bodies, and turn incidents into evals. |
 | `stepack` | Plain, exact English for your agent. Lives in [tuckcode/stepack](https://github.com/tuckcode/stepack). Needs access to that repo too. |
 
 ## opus-refiner
@@ -50,6 +51,28 @@ To get updates later:
 | `/opus-refiner:sync-guidance` | Maintainer only. Compare the plugin with the latest guidance post |
 
 **Not covered by a plugin:** the model picker, `/fast`, and the "switch models when a message is flagged" setting. Set those yourself.
+
+## code-review-flow
+
+Every skill is typed by you. The agent does not start them on its own. The skills share two repo files: `REVIEW.md` (what the reviewer must care about) and `.review/ledger.md` (every finding and how it ended).
+
+| Skill | Use it to |
+|---|---|
+| `/code-review-flow:init-review` | Draft a `REVIEW.md` and check that `CLAUDE.md` lists runnable checks |
+| `/code-review-flow:verify-work` | Run checks, show output, and get a fresh-context review before a PR |
+| `/code-review-flow:review` | Review a diff with parallel hunters and a vote of 3 verifiers. Tags Important, Nit, Pre-existing. Depth: quick, standard, deep |
+| `/code-review-flow:security-pass` | Run a separate security review. Open findings give a `BLOCKED` verdict |
+| `/code-review-flow:review-loop` | Review and fix in rounds. Stops after round 3 and re-reviews only new diffs |
+| `/code-review-flow:risk-tier` | Pick Low, Medium, or High from the change and give the human approvals needed |
+| `/code-review-flow:pr-body` | Write a PR body with Testing, Risk, and How to revert |
+| `/code-review-flow:incident-to-eval` | Save an incident as a regression case. A person must confirm it |
+| `/code-review-flow:eval-reviewer` | Score the review flow against the saved cases and clean controls |
+| `/code-review-flow:explain-slice` | Write an explainer for one module before you change it |
+| `/code-review-flow:adopt-review` | Audit a repo against the adoption checklist. Read-only |
+
+**Not built:** the merge queue, feature flags, staged releases, rollback, and branch protection. These are team tools. `/code-review-flow:adopt-review` reports whether you have them.
+
+**Source caveat:** the skills follow the post's structure. The numbers they use are choices of this repo, not the post: 3 hunters at standard depth, 5 at deep, a 2-of-3 vote, and a nit cap of 3. The post names the ideas but gives no such numbers.
 
 ## Maintaining
 
