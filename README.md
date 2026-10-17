@@ -33,7 +33,7 @@ To get updates later:
 
 ## opus-refiner
 
-**Each session:** A SessionStart hook loads [`rules.md`](plugins/opus-refiner/rules.md): continue without check-ins, stop before destructive actions, keep `TASKS.md` on long runs, end with **Blocked on me / Changed / Found**, and mark unconfirmed claims.
+**Each session:** A SessionStart hook loads [`rules.md`](plugins/opus-refiner/rules.md): continue without check-ins, stop before destructive actions, keep `TASKS.md` on long runs, end with **Blocked on me / Changed / Found**, show check output before you say done, and mark unconfirmed claims.
 
 **Before shell commands:** A PreToolUse hook asks you before `git push --force`, `git reset --hard`, `git clean -f`, `git branch -D`, and `rm -rf`. It asks even in auto mode.
 
@@ -41,9 +41,9 @@ To get updates later:
 
 | Skill | Use it to |
 |---|---|
-| `/opus-refiner:run-to-done` | Set a finish line, then let the agent run to it |
+| `/opus-refiner:run-to-done` | Set a finish line, then let the agent run to it. Stops after three review-fix rounds |
 | `/opus-refiner:fan-out` | Split an audit or migration across subagents and check their evidence |
-| `/opus-refiner:review-diff` | List only the merge-blocking problems in the branch, with proof |
+| `/opus-refiner:review-diff` | List only the merge-blocking problems in the branch or a pull request, with proof. A fresh subagent verifies each one. Old bugs go in a separate Pre-existing list |
 | `/opus-refiner:check-doc` | Find contradictions in numbers, dates, and names in a long document |
 | `/opus-refiner:design-avoid` | Keep a UI away from the model's default look |
 | `/opus-refiner:audit-prompts` | Find "think hard" and "show your reasoning" in your own instructions |

@@ -28,3 +28,16 @@ Last checked: 2026-10-11
 | Flags | In Claude Code, press Esc twice, run /model, or run /feedback | User habit |
 | Flags | Do not ask it to show its reasoning | `/audit-prompts` |
 | Speed | Use fast mode for back-and-forth work | User setting |
+
+## Second source: code review at Anthropic
+
+Source: https://claude.dev/blog/solving-code-review-at-anthropic/
+Last checked: 2026-10-17 (read through a summarizing fetch, not the raw page)
+
+| Section | Recommendation | Covered by |
+|---|---|---|
+| AI review | Verify each finding with a separate group before you post it | `/review-diff` |
+| AI review | Tag findings Important, Nit, or Pre-existing | `/review-diff` |
+| Reviewer quality | Cap rounds at three, re-review only the new diff, fix the bug class | `/run-to-done` |
+| Verification | Show command output, do not claim success | `rules.md`, `/run-to-done` |
+| Not covered | `REVIEW.md` template, PR template, incident evals, team approval tiers | Not built |

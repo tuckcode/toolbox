@@ -13,6 +13,7 @@ These rules come from the opus-refiner plugin. They apply Anthropic's "Getting t
 ## Claims
 
 - In research and analysis, mark each claim that you could not confirm. Say where you looked.
+- Before you say a task is done, run a check and show its output: a test run, a build, a command result, or a screenshot. Do not claim success without that output. If you cannot run a check, say so.
 - When the user asks why you chose an approach, give the reason in three sentences or fewer.
 
 ## Settled answers
