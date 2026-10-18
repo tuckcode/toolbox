@@ -3,7 +3,7 @@
 Each recommendation from Anthropic's "Getting the most out of Opus 5.5" post, in our own words, and where this plugin covers it. `/sync-guidance` compares this file with the live post.
 
 Source: https://claude.dev/blog/getting-the-most-out-of-opus-5-5/
-Last checked: 2026-10-11
+Last checked: 2026-10-17
 
 | Section | Recommendation | Covered by |
 |---|---|---|
@@ -11,10 +11,13 @@ Last checked: 2026-10-11
 | How to ask | Remove "think hard" phrases | `/audit-prompts` |
 | How to ask | Add follow-ups to a running task | User habit |
 | How to ask | Name the design styles to avoid | `/design-avoid` |
+| How to ask | Ask a specific question about an attached image | User habit |
 | Long runs | Say which stops you want, including before destructive actions | `rules.md` |
 | Long runs | Keep permission prompts for destructive commands | `scripts/guard-destructive.sh` |
 | Long runs | Split big audits and migrations across subagents and check their evidence | `/fan-out` |
 | Long runs | Keep the task list in a file | `rules.md`, `/run-to-done` |
+| Long runs | Reply "continue" when a run pauses to offer more | User habit (`rules.md` tells the model to keep going) |
+| Long runs | When pairing, ask for a one-line plan first and a short recap at the end | `rules.md` |
 | Checking | Read what it needs from you first; set end-of-run headings | `rules.md` |
 | Checking | Ask it to review the diff or PR before a human does | `/review-diff` |
 | Checking | Ask it to mark what it could not confirm | `rules.md` |
@@ -27,7 +30,8 @@ Last checked: 2026-10-11
 | Flags | In apps, switch back with the model picker or start a new chat | User habit |
 | Flags | In Claude Code, press Esc twice, run /model, or run /feedback | User habit |
 | Flags | Do not ask it to show its reasoning | `/audit-prompts` |
-| Speed | Use fast mode for back-and-forth work | User setting |
+| Flags | Ask for a three-sentence reason in place of its reasoning | `rules.md` |
+| Speed | Use fast mode for back-and-forth work. `/fast` turns it on. It needs extra usage and costs more per token | User setting |
 
 ## Second source: code review at Anthropic
 
