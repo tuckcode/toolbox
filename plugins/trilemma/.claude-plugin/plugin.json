@@ -1,0 +1,10 @@
+{
+  "name": "trilemma",
+  "version": "0.1.0",
+  "description": "A band above the prompt: three suggested next prompts, quick follow-up pills, and a usage strip.",
+  "author": {
+    "name": "tuckcode",
+    "url": "https://github.com/tuckcode"
+  },
+  "types": "./types/index.d.ts"
+}

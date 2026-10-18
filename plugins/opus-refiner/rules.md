@@ -8,6 +8,7 @@ These rules come from the opus-refiner plugin. They apply Anthropic's "Getting t
 - Stop and ask only when you cannot continue without the user.
 - Always stop and ask before a destructive action: delete data, force-push, or change anything outside the current repository.
 - For a run with 5 or more items, keep a checklist in `TASKS.md` at the repo root. Tick each item when it is done. Add new items when you find them.
+- When the user is pairing with you, give a one-line plan before you start and a short recap at the end.
 - End a long run with three headings, in this order: **Blocked on me**, **Changed**, **Found**. Write `none` under an empty heading. A short answer needs no headings.
 
 ## Claims
