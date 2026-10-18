@@ -252,16 +252,23 @@ export const register: Register = on => {
     return next(e)
   })
 
+  // A click moves the ring before it presses. The ring moves first and the bookkeeping follows unawaited,
+  // so the press lands on the element the person clicked. An unchanged index writes nothing.
   on('ui.focus', { component: 'AbovePrompt' }, async ($, e, next) => {
+    const result = await next(e)
     const match = /^item-(\d)$/.exec(e.element ?? '')
-    if (match && e.plugin === 'trilemma') {
-      const index = items(await read($, suggestions)).findIndex(i => i.key === match[1])
-      if (index >= 0) {
-        await update($, focus, () => index)
-        await offerFocused($)
-      }
+    if (match && e.plugin === 'trilemma' && !result.deny) {
+      const key = match[1]
+      Promise.all([read($, suggestions), read($, focus)])
+        .then(async ([list, current]) => {
+          const index = items(list).findIndex(i => i.key === key)
+          if (index < 0 || index === current) return
+          await update($, focus, () => index)
+          await offerFocused($)
+        })
+        .catch(() => undefined)
     }
-    return next(e)
+    return result
   })
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
@@ -365,7 +372,8 @@ export const register: Register = on => {
 
     const list = await read($, suggestions)
     const all = items(list)
-    const focused = all[Math.min(await read($, focus), all.length - 1)]?.key
+    // Only the terminal shows a focused item. Desktop does not read it, so a focus change there redraws nothing.
+    const focused = e.surface === 'terminal' ? all[Math.min(await read($, focus), all.length - 1)]?.key : undefined
     const sendItem = (prompt: string) => () => {
       send($, prompt).catch(() => undefined)
     }
