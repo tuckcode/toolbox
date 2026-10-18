@@ -19,6 +19,12 @@
       "category": "workflow"
     },
     {
+      "name": "trilemma",
+      "source": "./plugins/trilemma",
+      "description": "A band above the prompt: three suggested next prompts, quick follow-up pills, and a one-line usage strip for context and rate limits.",
+      "category": "interface"
+    },
+    {
       "name": "stepack",
       "source": {
         "source": "url",

@@ -30,6 +30,7 @@ To get updates later:
 |---|---|
 | `opus-refiner` | Applies Anthropic's [Opus 5.5 guidance](https://claude.dev/blog/getting-the-most-out-of-opus-5-5/). Adds stop rules and end-of-run headings to each session, asks before destructive shell commands, and adds skills for long runs, subagent audits, reviews, and checks. |
 | `code-review-flow` | A code review process for agent-written code. Based on Anthropic's [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/). Adds skills to verify work, review with a vote of verifiers, run a security pass, cap review rounds, pick a risk tier, write PR bodies, and turn incidents into evals. |
+| `trilemma` | A band above the prompt with 3 suggested next prompts, quick follow-up pills, and a one-line usage strip for context and rate limits. |
 | `stepack` | Plain, exact English for your agent. Lives in [tuckcode/stepack](https://github.com/tuckcode/stepack). Needs access to that repo too. |
 
 ## opus-refiner
@@ -73,6 +74,21 @@ Every skill is typed by you. The agent does not start them on its own. The skill
 **Not built:** the merge queue, feature flags, staged releases, rollback, and branch protection. These are team tools. `/code-review-flow:adopt-review` reports whether you have them.
 
 **Source caveat:** the skills follow the post's structure. The numbers they use are choices of this repo, not the post: 3 hunters at standard depth, 5 at deep, a 2-of-3 vote, and a nit cap of 3. The post names the ideas but gives no such numbers.
+
+## trilemma
+
+A band above the prompt box. It is a mod: a hooks module, with no skills or commands.
+
+- **Suggested prompts:** after each answer, Haiku reads the last 8 messages and writes 3 likely next prompts. Click one to send it. They clear when you send a prompt.
+- **Pills:** 4 next, 5 tldr, 6 eli5, 7 opinion, 8 recap, 9 elab. Each one sends one plain prompt.
+- **Usage strip:** one line. Left: last turn and context. Middle: the 5-hour and weekly limits. Right: the weekly reset. Cost shows only on API billing. A bar turns amber at 75% and red at 90%, and adds a "full in ~Xh" estimate from the last hour of use.
+- **One send per click:** the first click hides the options until the turn ends.
+
+**Terminal only:** keys 1–9 send while the prompt box is empty, and Tab drops the focused prompt into the box for editing. The desktop app draws its own composer and does not report these keys, so use clicks there.
+
+**Cost:** one small Haiku call (at most 200 output tokens) after each answer.
+
+To develop it without installing: `claude --plugin-dir plugins/trilemma`. Tests: `claude plugin test plugins/trilemma`.
 
 ## Maintaining
 
