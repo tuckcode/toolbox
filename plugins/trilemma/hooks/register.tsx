@@ -12,8 +12,8 @@ const C = {
   secondary: '#d77757',
   border: '#3a2a23',
   focus: '#eb9f7f',
-  amber: '#ffcf24',
-  red: '#f87171',
+  warn: '#ff6b6b',
+  danger: '#ff2d2d',
 }
 
 const PILLS = [
@@ -97,8 +97,8 @@ function duration(ms: number): string {
 }
 
 function levelColor(pct: number): string {
-  if (pct >= DANGER) return C.red
-  if (pct >= WARN) return C.amber
+  if (pct >= DANGER) return C.danger
+  if (pct >= WARN) return C.warn
   return C.secondary
 }
 
