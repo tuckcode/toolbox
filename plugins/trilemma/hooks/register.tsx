@@ -37,6 +37,10 @@ const SUGGEST_CHARS = 1500
 const WARN = 75
 const DANGER = 90
 const BURN_WINDOW_MS = 60 * 60 * 1000
+const BURN_MIN_SPAN_MS = 10 * 60 * 1000
+const BURN_MIN_RISE = 1
+// Below this width the strip takes two rows.
+const ONE_ROW_COLUMNS = 140
 
 const suggestions = atom({ plugin: 'trilemma', key: 'suggestions' } as const, [] as string[])
 const focus = atom({ plugin: 'trilemma', key: 'focus' } as const, 0)
@@ -47,18 +51,11 @@ const lastTokens = atom({ plugin: 'trilemma', key: 'lastTokens' } as const, null
 const samples = atom({ plugin: 'trilemma', key: 'samples' } as const, [] as TrilemmaSample[])
 const tick = atom({ plugin: 'trilemma', key: 'tick' } as const, 0)
 
-/** Every selectable item in order: suggestions first (keys 1-3), then pills (keys 4-9). */
+/** Every selectable item in order: suggestions first, then pills. */
 function items(list: string[]): { key: string; prompt: string }[] {
   const rows = list.slice(0, 3).map((prompt, i) => ({ key: String(i + 1), prompt }))
   const pills = PILLS.map((p, i) => ({ key: String(i + 4), prompt: p.prompt }))
   return [...rows, ...pills]
-}
-
-function promptForKey(list: string[], key: string): string | undefined {
-  const n = Number(key)
-  if (n >= 1 && n <= 3) return list[n - 1]
-  if (n >= 4 && n <= 9) return PILLS[n - 4]?.prompt
-  return undefined
 }
 
 function parseSuggestions(text: string): string[] {
@@ -105,16 +102,28 @@ function levelColor(pct: number): string {
   return C.secondary
 }
 
-/** Hours until a window reaches 100%, from its readings in the last hour. */
-function burn(all: TrilemmaSample[], kind: string, now: number): number | undefined {
+/**
+ * Hours until a window reaches 100%, from its readings in the last hour.
+ * Undefined when the readings span too little time or rise too little to give a rate,
+ * or when the window resets first, so the limit cannot fill.
+ */
+export function burn(
+  all: TrilemmaSample[],
+  kind: string,
+  now: number,
+  resetInMs?: number,
+): number | undefined {
   const recent = all.filter(s => s.kind === kind && now - s.at <= BURN_WINDOW_MS)
   if (recent.length < 2) return undefined
   const first = recent[0]
   const last = recent[recent.length - 1]
   if (!first || !last) return undefined
-  const rate = (last.percentUsed - first.percentUsed) / (last.at - first.at)
-  if (!(rate > 0)) return undefined
-  return (100 - last.percentUsed) / rate
+  const span = last.at - first.at
+  const rise = last.percentUsed - first.percentUsed
+  if (span < BURN_MIN_SPAN_MS || rise < BURN_MIN_RISE) return undefined
+  const msLeft = ((100 - last.percentUsed) / rise) * span
+  if (resetInMs !== undefined && msLeft >= resetInMs) return undefined
+  return msLeft / 3_600_000
 }
 
 async function refreshUsage($: EngineInterface): Promise<void> {
@@ -218,15 +227,6 @@ export const register: Register = on => {
   })
 
   on('prompt.edit', async ($, e, next) => {
-    const plain = e.key !== undefined && !e.key.ctrl && !e.key.meta
-    if (e.text === '' && plain) {
-      // Keys 1-9 send while the composer is empty.
-      const text = /^[1-9]$/.test(e.inputText) ? promptForKey(await read($, suggestions), e.inputText) : undefined
-      if (text !== undefined) {
-        await send($, text)
-        return { text: '', cursor: 0 }
-      }
-    }
     const box = await next(e)
     const hasText = box.text !== ''
     if (hasText !== (await read($, isDraft))) await update($, isDraft, () => hasText)
@@ -296,69 +296,68 @@ export const register: Register = on => {
     // Desktop draws the segment glyphs wide in its proportional font, so its bars are short.
     const segments = e.surface === 'terminal' ? (width >= 140 ? 12 : width >= 110 ? 8 : 5) : 6
 
-    const limit = (label: string, l: TrilemmaLimit | undefined, showReset: boolean) => {
+    const limit = (label: string, l: TrilemmaLimit | undefined) => {
       if (!l) return null
       const pct = l.percentUsed
       const color = pct >= WARN ? levelColor(pct) : C.text
-      const hours = pct >= WARN ? burn(history, l.kind, now) : undefined
       const reset = l.resetsAt ? Date.parse(l.resetsAt) - now : undefined
+      const hours = pct >= WARN ? burn(history, l.kind, now, reset) : undefined
       return (
         <Text>
           <Text color={C.secondary}>{label} </Text>
           {bar(pct, segments, true)}
           <Text color={color}> {Math.round(pct)}% used</Text>
           {hours !== undefined ? <Text color={color}> · full in ~{duration(hours * 3_600_000)}</Text> : null}
-          {showReset && reset !== undefined && reset > 0 ? (
+          {reset !== undefined && reset > 0 ? (
             <Text color={C.secondary}> · resets in {duration(reset)}</Text>
           ) : null}
         </Text>
       )
     }
 
-    // One line in three groups: the session on the left, the limits in the middle, the weekly reset docked right.
     // Cost shows only off a subscription: a subscription reports limit windows, and its dollar figure is not a bill.
     const isSubscription = (u?.limits.length ?? 0) > 0
     const ctxPct = u?.contextTokens !== undefined ? (u.contextTokens / u.contextWindow) * 100 : 0
     const fiveHour = u?.limits.find(l => l.kind === 'five_hour')
     const week = u?.limits.find(l => l.kind === 'seven_day')
-    const weekReset = week?.resetsAt ? Date.parse(week.resetsAt) - now : undefined
-    const strip = (
-      <Box flexDirection="row" justifyContent="space-between" columnGap={2}>
-        <Text wrap="truncate-end">
-          {!isSubscription ? (
-            <Text>
-              <Text color={C.secondary}>cost </Text>
-              <Text color={C.text}>${(u?.costUsd ?? 0).toFixed(2)}</Text>
-              {sep}
-            </Text>
-          ) : null}
-          {last !== null ? (
-            <Text>
-              <Text color={C.secondary}>last turn </Text>
-              <Text color={C.text}>{tokens(last)}</Text>
-              {sep}
-            </Text>
-          ) : null}
-          <Text color={C.secondary}>context </Text>
-          {bar(ctxPct, segments, true)}
-          <Text color={ctxPct >= WARN ? levelColor(ctxPct) : C.text}>
-            {' '}
-            {tokens(u?.contextTokens ?? 0)} / {tokens(u?.contextWindow ?? 0)}
+    const session = (
+      <Text wrap="truncate-end">
+        {!isSubscription ? (
+          <Text>
+            <Text color={C.secondary}>cost </Text>
+            <Text color={C.text}>${(u?.costUsd ?? 0).toFixed(2)}</Text>
+            {sep}
           </Text>
+        ) : null}
+        {last !== null ? (
+          <Text>
+            <Text color={C.secondary}>last turn </Text>
+            <Text color={C.text}>{tokens(last)}</Text>
+            {sep}
+          </Text>
+        ) : null}
+        <Text color={C.secondary}>context </Text>
+        {bar(ctxPct, segments, true)}
+        <Text color={ctxPct >= WARN ? levelColor(ctxPct) : C.text}>
+          {' '}
+          {tokens(u?.contextTokens ?? 0)}/{tokens(u?.contextWindow ?? 0)}
         </Text>
-        {fiveHour || week ? (
-          <Text wrap="truncate-end">
-            {limit('5h', fiveHour, true)}
-            {fiveHour && week ? sep : null}
-            {limit('week', week, false)}
-          </Text>
-        ) : null}
-        {weekReset !== undefined && weekReset > 0 ? (
-          <Text wrap="truncate-end">
-            <Text color={C.secondary}>week resets in </Text>
-            <Text color={C.text}>{duration(weekReset)}</Text>
-          </Text>
-        ) : null}
+      </Text>
+    )
+    const limits =
+      fiveHour || week ? (
+        <Text wrap="truncate-end">
+          {limit('5h', fiveHour)}
+          {fiveHour && week ? sep : null}
+          {limit('week', week)}
+        </Text>
+      ) : null
+    // A wide terminal keeps one row. Every other view gets one row for the session and one for the limits.
+    const isWide = e.surface === 'terminal' && width >= ONE_ROW_COLUMNS
+    const strip = (
+      <Box flexDirection={isWide ? 'row' : 'column'} justifyContent="space-between" columnGap={2}>
+        {session}
+        {limits}
       </Box>
     )
 
@@ -386,11 +385,7 @@ export const register: Register = on => {
       const hover = { scope: `row-${key}`, color: C.focus }
       return (
         <Button key={`item-${key}`} plain onPress={sendItem(prompt)}>
-          <Text color={isFocused ? C.focus : C.secondary} bold={isFocused} hover={hover}>
-            {key}
-          </Text>
-          <Text color={isFocused ? C.focus : C.text} hover={hover}>
-            {' '}
+          <Text color={isFocused ? C.focus : C.text} bold={isFocused} hover={hover}>
             {prompt}
           </Text>
         </Button>
@@ -408,11 +403,7 @@ export const register: Register = on => {
         // is marked as focused there: the one under the pointer lights up instead.
         return (
           <Button key={`item-${key}`} variant="secondary" hover={hover} onPress={sendItem(p.prompt)}>
-            <Text color={C.secondary} bold hover={hover}>
-              {key}
-            </Text>
             <Text color={C.text} hover={hover}>
-              {' '}
               {p.label}
             </Text>
           </Button>
@@ -422,11 +413,7 @@ export const register: Register = on => {
       return (
         <Button key={`item-${key}`} plain onPress={sendItem(p.prompt)}>
           <Text color={chip}>▐</Text>
-          <Text backgroundColor={chip} color={isFocused ? C.focus : C.secondary} bold hover={hover}>
-            {key}
-          </Text>
           <Text backgroundColor={chip} color={isFocused ? C.focus : C.text} hover={hover}>
-            {' '}
             {p.label}
           </Text>
           <Text color={chip}>▌</Text>

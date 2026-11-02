@@ -2,6 +2,8 @@ import type { PromptEditInput, PromptEditResult } from 'claude-code'
 import type { Engine } from 'claude-code/testing'
 import { expect, mock, test } from 'claude-code/testing'
 
+import { burn } from '../hooks/register'
+
 const BAND = {
   component: 'AbovePrompt',
   props: {
@@ -47,12 +49,13 @@ test('typing hides the pills and keeps the usage strip', async ($, on) => {
   }
 })
 
-test('a digit on an empty composer sends its prompt and leaves the box empty', async ($, on) => {
+test('a digit on an empty composer is typed and sends nothing', async ($, on) => {
   const sent: string[] = []
   on('prompt.submit', ($, e) => {
     sent.push(e.text)
     return { text: e.text }
   })
+  on('prompt.edit', ($, e) => ({ text: e.text + e.inputText, cursor: e.text.length + 1 }))
   const clock = mock.clock(on)
   const box = await edit($, {
     key: { key: '4' },
@@ -62,9 +65,27 @@ test('a digit on an empty composer sends its prompt and leaves the box empty', a
     end: 0,
     inputText: '4',
   })
-  expect(box.text).toBe('')
+  expect(box.text).toBe('4')
   await clock.settle()
-  expect(sent).toEqual(["What's next?"])
+  expect(sent).toEqual([])
+})
+
+const MINUTE = 60_000
+const reading = (minute: number, percentUsed: number) => ({
+  at: minute * MINUTE,
+  kind: 'five_hour',
+  percentUsed,
+})
+
+test('burn hides a rate from a tiny rise or a short span', () => {
+  expect(burn([reading(0, 81), reading(30, 81.0001)], 'five_hour', 30 * MINUTE)).toBeUndefined()
+  expect(burn([reading(0, 80), reading(2, 85)], 'five_hour', 2 * MINUTE)).toBeUndefined()
+})
+
+test('burn hides the estimate when the window resets first', () => {
+  const list = [reading(0, 80), reading(20, 85)]
+  expect(burn(list, 'five_hour', 20 * MINUTE, 30 * MINUTE)).toBeUndefined()
+  expect(burn(list, 'five_hour', 20 * MINUTE, 120 * MINUTE)).toBe(1)
 })
 
 test('a digit inside a draft is typed as usual', async ($, on) => {
@@ -95,7 +116,6 @@ test('repeat presses send once and the options hide at once', async ($, on) => {
     await ui.press({ key: 'item-5' })
     expect(await ui.find({ key: 'item-5' })).toBeUndefined()
     expect(await ui.find({ text: /context/ })).toBeDefined()
-    await edit($, { key: { key: '6' }, text: '', cursor: 0, start: 0, end: 0, inputText: '6' })
     await clock.settle()
     expect(sent).toEqual(['Give me a TL;DR of your last answer.'])
     await $.turn.complete({ answer: '', durationMs: 1, isAborted: true, turnId: 't', reason: 'aborted' })
