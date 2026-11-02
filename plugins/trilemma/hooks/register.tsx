@@ -421,15 +421,12 @@ export const register: Register = on => {
       )
     })
 
+    // A desktop draws each row as a native button taller than its text, so rows need a gap to keep hit areas apart.
+    const gap = e.surface === 'terminal' ? 0 : 1
     return (
-      <Box flexDirection="column" paddingX={1}>
-        <Box flexDirection="row" justifyContent="space-between">
-          <Box flexDirection="row" flexWrap="wrap" columnGap={1}>
-            {pills}
-          </Box>
-          <Text color={C.secondary} bold>
-            T R I L E M M A
-          </Text>
+      <Box flexDirection="column" paddingX={1} rowGap={gap}>
+        <Box flexDirection="row" flexWrap="wrap" columnGap={1}>
+          {pills}
         </Box>
         {rows}
         {strip}

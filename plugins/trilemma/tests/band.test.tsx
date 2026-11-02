@@ -30,7 +30,7 @@ test('empty composer shows the pills and the usage strip', async ($, on) => {
     const ui = await $.ui.mount({ plugin: 'trilemma', surface, ...BAND })
     expect((await ui.find({ key: 'item-4' }))?.text).toMatch(/next/)
     expect((await ui.find({ key: 'item-9' }))?.text).toMatch(/elab/)
-    expect(await ui.find({ text: /T R I L E M M A/ })).toBeDefined()
+    expect(await ui.find({ text: /T R I L E M M A/ })).toBeUndefined()
     expect(await ui.find({ text: /context/ })).toBeDefined()
     await ui.unmount()
   }
