@@ -2,7 +2,7 @@ import type { PromptEditInput, PromptEditResult } from 'claude-code'
 import type { Engine } from 'claude-code/testing'
 import { expect, mock, test } from 'claude-code/testing'
 
-import { burn } from '../hooks/register'
+import { burn, suggestionTranscript } from '../hooks/register'
 
 const BAND = {
   component: 'AbovePrompt',
@@ -121,4 +121,11 @@ test('repeat presses send once and the options hide at once', async ($, on) => {
     await $.turn.complete({ answer: '', durationMs: 1, isAborted: true, turnId: 't', reason: 'aborted' })
     await ui.unmount()
   }
+})
+
+test('the suggestion transcript keeps the end of a long last message', () => {
+  const text = `${'x'.repeat(6000)} Should I merge PR 289?`
+  const transcript = suggestionTranscript([{ role: 'assistant', text }])
+  expect(transcript).toContain('Should I merge PR 289?')
+  expect(transcript.length).toBeLessThan(5100)
 })

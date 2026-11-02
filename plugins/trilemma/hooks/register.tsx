@@ -12,6 +12,7 @@ const C = {
   secondary: '#a8a29e',
   border: '#44403c',
   focus: '#e7e5e4',
+  hover: '#d77757',
   warn: '#ff6b6b',
   danger: '#ff2d2d',
 }
@@ -26,13 +27,17 @@ const PILLS = [
 ]
 
 const SUGGEST_PROMPT = [
-  'Suggest exactly 3 prompts I am most likely to send you next, based on the conversation above.',
-  'Write each one as I would type it: first person, imperative, specific, under 100 characters.',
-  'Output only the 3 prompts, one per line, with no numbering, bullets, quotes or other text.',
+  'Suggest exactly 3 prompts I am most likely to send you next. Base them on the conversation above.',
+  'Read your last message first. If it asks me a question or offers a choice, make the first prompt my most likely answer, and name the choice.',
+  'Make the 3 prompts different: one moves the work forward, one checks or tests the result, and one questions a risk or a loose end.',
+  'Use the real file, branch, PR, command, or feature names from the conversation. Never suggest work that is already done.',
+  'Write each prompt as I would type it: first person, imperative, specific, and under 100 characters.',
+  'Output only the 3 prompts, one per line, with no numbering, bullets, quotes, or other text.',
 ].join(' ')
 
-const SUGGEST_MESSAGES = 8
+const SUGGEST_MESSAGES = 10
 const SUGGEST_CHARS = 1500
+const SUGGEST_LAST_CHARS = 5000
 
 const WARN = 75
 const DANGER = 90
@@ -56,6 +61,17 @@ function items(list: string[]): { key: string; prompt: string }[] {
   const rows = list.slice(0, 3).map((prompt, i) => ({ key: String(i + 1), prompt }))
   const pills = PILLS.map((p, i) => ({ key: String(i + 4), prompt: p.prompt }))
   return [...rows, ...pills]
+}
+
+/** Recent messages for the model. A long message keeps its end, where the question or next step sits. */
+export function suggestionTranscript(messages: { role: string; text: string }[]): string {
+  const recent = messages.slice(-SUGGEST_MESSAGES)
+  return recent
+    .map((m, i) => {
+      const chars = i === recent.length - 1 ? SUGGEST_LAST_CHARS : SUGGEST_CHARS
+      return `${m.role === 'user' ? 'Me' : 'You'}: ${m.text.slice(-chars)}`
+    })
+    .join('\n\n')
 }
 
 function parseSuggestions(text: string): string[] {
@@ -140,15 +156,12 @@ async function refreshUsage($: EngineInterface): Promise<void> {
 /** Asks Haiku for the next prompts from the tail of the conversation. Runs every turn, so it stays small. */
 async function suggest($: EngineInterface) {
   const messages = await $.session.messages()
-  const transcript = messages
-    .slice(-SUGGEST_MESSAGES)
-    .map(m => `${m.role === 'user' ? 'Me' : 'You'}: ${m.text.slice(0, SUGGEST_CHARS)}`)
-    .join('\n\n')
+  const transcript = suggestionTranscript(messages)
   return $.model.complete({
     model: 'haiku',
     system: 'You predict what a developer will type next to their coding assistant.',
     prompt: `${transcript}\n\n---\n${SUGGEST_PROMPT}`,
-    maxTokens: 200,
+    maxTokens: 300,
     timeoutMs: 20_000,
   })
 }
@@ -382,7 +395,7 @@ export const register: Register = on => {
     const rows = list.slice(0, 3).map((prompt, i) => {
       const key = String(i + 1)
       const isFocused = key === focused
-      const hover = { scope: `row-${key}`, color: C.focus }
+      const hover = { scope: `row-${key}`, color: C.hover }
       return (
         <Button key={`item-${key}`} plain onPress={sendItem(prompt)}>
           <Text color={isFocused ? C.focus : C.text} bold={isFocused} hover={hover}>
@@ -397,7 +410,7 @@ export const register: Register = on => {
     const pills = PILLS.map((p, i) => {
       const key = String(i + 4)
       const isFocused = key === focused
-      const hover = { scope: `pill-${key}`, color: C.focus }
+      const hover = { scope: `pill-${key}`, color: C.hover }
       if (e.surface !== 'terminal') {
         // The desktop's own button chrome: a slim chip, one text line tall. Desktop is pointer-first, so no pill
         // is marked as focused there: the one under the pointer lights up instead.
