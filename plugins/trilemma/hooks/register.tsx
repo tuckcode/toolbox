@@ -3,15 +3,15 @@ import type { EngineInterface, Register, SessionRateLimit } from 'claude-code'
 
 import type { TrilemmaLimit, TrilemmaSample, TrilemmaUsage } from '../types'
 
-// Ozzs Blizzard
+// Claude Code orange
 const C = {
-  bg: '#0a0f1a',
-  chip: '#263244',
-  focusChip: '#14324a',
+  bg: '#1a1411',
+  chip: '#3a2a23',
+  focusChip: '#5a3324',
   text: '#f7f7fa',
-  secondary: '#6f8fd9',
-  border: '#263244',
-  focus: '#4cc9f0',
+  secondary: '#d77757',
+  border: '#3a2a23',
+  focus: '#eb9f7f',
   amber: '#ffcf24',
   red: '#f87171',
 }
