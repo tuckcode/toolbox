@@ -1,6 +1,8 @@
 # Guidance index
 
-Each recommendation from Anthropic's "Getting the most out of Opus 5.5" post, in our own words, and where this plugin covers it. `/sync-guidance` compares this file with the live post.
+Each recommendation from Anthropic's published guidance, in our own words, and where this plugin covers it. `/sync-guidance` compares this file with the live sources.
+
+## First source: Opus 5.5
 
 Source: https://claude.dev/blog/getting-the-most-out-of-opus-5-5/
 Last checked: 2026-10-17
@@ -44,4 +46,28 @@ Last checked: 2026-10-17 (read through a summarizing fetch, not the raw page)
 | AI review | Tag findings Important, Nit, or Pre-existing | `/review-diff` |
 | Reviewer quality | Cap rounds at three, re-review only the new diff, fix the bug class | `/run-to-done` |
 | Verification | Show command output, do not claim success | `rules.md`, `/run-to-done` |
-| Not covered | `REVIEW.md` template, PR template, incident evals, team approval tiers | Not built |
+| Not covered | `REVIEW.md` template, PR template, incident evals, team approval tiers | Built in the `code-review-flow` plugin |
+
+## Third source: Prompting Claude Sonnet 5.5
+
+Source: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5
+Last checked: 2026-11-14
+
+| Section | Recommendation | Covered by |
+|---|---|---|
+| Effort | Levels are recalibrated. Sweep on your own evals. Start at `high`, or `medium` for agentic work | `/set-effort` |
+| Effort | Lower effort to get less thinking. A "think less" prompt is unreliable | `/set-effort`, `/audit-prompts` |
+| Effort | Leave room in `max_tokens` for thinking. Use per-message effort to keep the cache | `/set-effort` |
+| Initiative | Keep working until done. Stop to ask only when blocked or before a risky step | `rules.md` |
+| Scope | Do not add unrequested features, tests, files, or docs. Mention them at the end | `rules.md` |
+| Scope | At `xhigh` and `max`, do not start extra review rounds or reviewer subagents | `rules.md` |
+| Scope | For ideas or plans, give that and stop | `rules.md` |
+| Thinking | `between_tools` is the lowest thinking setting. Not for reasoning tasks without tools | `/set-effort` |
+| JSON output | Add "Think the problem through before you answer." Or use `xhigh`. Parse the last JSON value | `/set-effort` |
+| Progress | Show updates between tool calls. Remove "hold all findings" rules | `/audit-prompts` |
+| Tool use | Search for facts that may have changed. Remove "minimize tool calls" | `rules.md`, `/audit-prompts` |
+| Mid-turn messages | Send user text as a user turn, never inside a `tool_result` | Harness builders only. Not built |
+| Verification | Run a real check before "done". Install declared dependencies if missing | `rules.md`, `/run-to-done` |
+| Tool calls | Accept tool names that differ only in letter case | Harness builders only. Not built |
+| Visual input | Give crop or zoom tools for dense charts | User habit |
+| Refusals | Do not ask for reasoning in the reply. Read summarized thinking blocks | `rules.md`, `/audit-prompts` |

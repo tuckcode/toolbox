@@ -7,9 +7,9 @@
   },
   "plugins": [
     {
-      "name": "opus-refiner",
-      "source": "./plugins/opus-refiner",
-      "description": "Applies Anthropic's Opus 5.5 guidance: stop rules, destructive-command prompts, and skills for long runs, reviews, and checks.",
+      "name": "best-practices",
+      "source": "./plugins/best-practices",
+      "description": "Anthropic's prompting and workflow guidance for current Claude models: stop rules, scope rules, destructive-command prompts, and skills for long runs, reviews, effort, and checks.",
       "category": "workflow"
     },
     {

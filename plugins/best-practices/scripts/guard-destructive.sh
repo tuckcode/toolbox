@@ -19,6 +19,6 @@ elif printf '%s' "$input" | grep -Eq '(^|[^a-zA-Z_-])rm[[:space:]]+([^"]*[[:spac
 fi
 
 if [ -n "$reason" ]; then
-  printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"ask","permissionDecisionReason":"opus-refiner: %s cannot be undone. Confirm before it runs."}}\n' "$reason"
+  printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"ask","permissionDecisionReason":"best-practices: %s cannot be undone. Confirm before it runs."}}\n' "$reason"
 fi
 exit 0
