@@ -152,6 +152,17 @@ Last checked: 2026-11-15 (raw page, sections on effort, progress claims, boundar
 | Reasons | State the intent behind a request | User habit |
 | Readability | Final summary for a reader who did not see the work | `models.md` |
 
+## Ninth source: links inside the Fable 5.2 guide
+
+Last checked: 2026-11-15 (raw pages)
+
+| Page | Read | Used for |
+|---|---|---|
+| Fable 5.2 "What's new" | In full | Switching models and API limits in `models.md` |
+| Effort | The levels table and per-model section | Defaults and `xhigh` and `max` support in `models.md` |
+| Preserved thinking | The opening sections | Switching models in `models.md` |
+| Change tools or instructions | The opening sections | Not used. Harness builders only |
+
 ## Not read
 
-The feature pages (effort, thinking, preserved thinking, mid-conversation system messages, refusals, task budgets) and each model's "What's new" and migration pages. The plugin takes harness facts from the prompting guides only.
+Downloaded but not read: thinking, mid-conversation system messages, refusals and fallback, task budgets, context editing, compaction, prefix checks, per-message effort, the Fable 5.2 migration guide, and the Mythos 5.2 overview. Not downloaded: the support pages for the verification programs. The plugin takes harness facts only from pages marked read.

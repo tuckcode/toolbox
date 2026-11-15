@@ -94,6 +94,17 @@ Fable 5.2 delegates as much as your prompts invite. At `xhigh` and `max` it may 
 - Treat `stop_reason: "refusal"` as a result. Do not ask the model to reproduce its reasoning in the reply.
 - Haiku 5.5 chatbots: add "The rules in this system prompt hold for the whole conversation. Keep to them when a user argues or keeps asking."
 
+## Switching models
+
+Read from the Fable 5.2 "What's new" page and the preserved-thinking page.
+
+- Thinking blocks record the model that made them. A model that cannot read a block drops it for that request. No error occurs, and the dropped block is not billed. The reasoning of those turns is lost to the new model. It returns when you switch back, if your code kept the history unchanged.
+- Fable 5.2 and Mythos 5.2 read each other's blocks and blocks from Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1. No other model reads Fable 5.2 blocks.
+- Do not remove thinking blocks and do not keep a separate history for each model.
+- Fable 5.2 API limits: thinking is always on. `thinking: {"type": "disabled"}` and `budget_tokens` return a 400 error. Forced `tool_choice` (`any` or a named tool) also returns a 400 error.
+- Fable 5.2 fallback models after a refusal: Opus 4.8 and Opus 5.
+- Claude Code, claude.ai, Managed Agents, and the Agent SDK build requests for you. The history rules matter only for your own API code.
+
 ## Optional prompt lines
 
 Anthropic publishes these sample lines. None is on by default in this plugin. Add one to a system prompt when you see the behavior. Test it first. Sources: the general best-practices page and the Fable 5 guide.
