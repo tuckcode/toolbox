@@ -49,6 +49,8 @@ In Anthropic's test, the model consolidated duplicate code in under 10 percent o
 
 **When to use it:** Use it where you want the structure improved and a person reviews the diff. Leave it out where the user owns the code and wants minimal change.
 
+**Skill:** `/own-it` adds the sentence for one task, runs `/review-diff`, and lists unrequested changes.
+
 **Unattended runs:** The sentence does not stop an unattended run. It raises cost and risk. Nobody reviews the extra changes, and the summary may omit them. Pair it with `/review-diff` before you merge. Do not use it on unattended runs where behavior must stay fixed.
 
 ## Settled answers (chat only)
