@@ -163,17 +163,9 @@ Last checked: 2026-11-15 (raw pages)
 | Preserved thinking | The opening sections | Switching models in `models.md` |
 | Change tools or instructions | The opening sections | Not used. Harness builders only |
 
-## Tenth source: other guides in the docs sidebar
+## Scope of this index
 
-Last checked: 2026-11-15 (raw pages)
-
-| Page | Read | Used for |
-|---|---|---|
-| Prompting Fable 5.1 | Sections from "Writing density" to the end | `models.md` (scope, search, edits, long outputs) |
-| Prompting Opus 5 | Sections after capability improvements | `models.md` (over-verification, subagent caps) |
-| Prompting Opus 4.8 | Effort, tool use, literal following, review harnesses | `models.md`, `/review-diff` |
-| Prompting Sonnet 5 | Effort, tool use, literal following, review harnesses | `models.md`, `/review-diff` |
-| Test and evaluate, strengthen guardrails | Downloaded, not read | Not used |
+The plugin tracks Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5. Older guides (Fable 5.1, Fable 5, Opus 5, Opus 4.8, Sonnet 5) were read once on 2026-11-15. Only the code-review and literal-instruction findings carried over. See `models.md`.
 
 ## Not read
 
