@@ -9,14 +9,14 @@ Review the diff of the current branch against its base. The base is `main` unles
 ## Steps
 
 1. Run `git diff <base>...HEAD`. For a pull request, run `gh pr diff <number>`. Read each changed file in full where the diff alone does not show the context.
-2. List candidate problems you would block the merge for: wrong behavior, data loss, security holes, broken contracts, missing migrations. Leave out style and preference.
+2. List every candidate problem you find, including ones you are unsure about. Aim for coverage. Do not filter for importance yet. A later step filters. Candidates cover wrong behavior, data loss, security holes, broken contracts, and missing migrations. Give each a confidence (low, medium, high) and a severity.
 3. For each candidate, write:
    - the file and line
    - why it is wrong
    - how to show it fails: a test, a command, or concrete input and the wrong output
 4. Check the origin of each candidate with `git blame` on the cited lines. If the lines are older than the branch point, tag the candidate **Pre-existing**. If the diff added or changed the lines, tag it **Important**.
 5. Verify each candidate in a fresh context. Start one subagent per candidate. Give it only the file, line, claim, and failing input. Tell it to try to disprove the claim by reading the code path and running the check. Do not give it your reasoning.
-6. Keep a candidate only if its verifier confirms it. Drop a candidate the verifier disproves. If the verifier cannot decide, list the candidate under **Not confirmed** with where it looked.
+6. Keep a candidate only if its verifier confirms it. Then apply this threshold: report a confirmed bug that could cause incorrect behavior, a test failure, or a misleading result. Omit pure style and naming nits. Drop a candidate the verifier disproves. If the verifier cannot decide, list the candidate under **Not confirmed** with where it looked.
 
 ## Report
 

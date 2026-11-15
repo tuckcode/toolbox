@@ -94,6 +94,23 @@ Fable 5.2 delegates as much as your prompts invite. At `xhigh` and `max` it may 
 - Treat `stop_reason: "refusal"` as a result. Do not ask the model to reproduce its reasoning in the reply.
 - Haiku 5.5 chatbots: add "The rules in this system prompt hold for the whole conversation. Keep to them when a user argues or keeps asking."
 
+## Other models in the docs sidebar
+
+Read from the raw guides for Fable 5.1, Opus 5, Opus 4.8, and Sonnet 5.
+
+| Model | Facts that matter here |
+|---|---|
+| Fable 5.1 | Default `high`. Add a scope prompt if it fixes nearby code or commits extra tests. Add a search prompt at `low` effort. Prefer targeted edits over whole-file rewrites. At `xhigh` and `max`, a long deliverable may be drafted twice, so use `high`. Let the lead agent keep working while subagents run |
+| Opus 5 | Default `high`. It verifies and corrects itself. Remove "verify" and "double-check" instructions, because they cause over-verification. Replies and written files run long, so ask for brevity. It delegates readily. Cap subagents with `CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`, `CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`, or `max_budget_usd`. Thinking cannot be off at `xhigh` or `max` |
+| Opus 4.8 | Recommended `xhigh` for coding and agentic work. Takes prompts literally. Thinking is off unless you set adaptive. It favors reasoning over tool calls, so raise effort for more tool use |
+| Sonnet 5 | Default `high`. Adaptive thinking is on by default. Takes prompts literally. At `low` and `medium` it keeps to what was asked. `budget_tokens` returns a 400 error. The new tokenizer makes about 30 percent more tokens, so raise `max_tokens` |
+
+**Literal instruction following (Opus 4.8, Sonnet 5, Opus 5):** The model does not carry an instruction from one item to another. State the scope: "apply this to every section, not just the first".
+
+**Code review prompts (Opus 4.8, Sonnet 5, Opus 5):** "Only report high-severity issues", "be conservative", and "do not nitpick" make the model find the bugs and then not report them. Ask for every issue with a confidence and a severity, and filter in a separate step. If you filter in one pass, give a concrete threshold. `/review-diff` follows this.
+
+**Fable 5.1 scope text (optional, off here):** Anthropic publishes a prompt that keeps changes to what the task asks. It says to report nearby bugs as follow-ups and to commit tests only where the repo keeps them. It also says the request sets the scope, and that a blocked part must not shrink the whole task. Use it only if you want fewer unrequested additions.
+
 ## Switching models
 
 Read from the Fable 5.2 "What's new" page and the preserved-thinking page.

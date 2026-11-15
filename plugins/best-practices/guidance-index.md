@@ -163,6 +163,18 @@ Last checked: 2026-11-15 (raw pages)
 | Preserved thinking | The opening sections | Switching models in `models.md` |
 | Change tools or instructions | The opening sections | Not used. Harness builders only |
 
+## Tenth source: other guides in the docs sidebar
+
+Last checked: 2026-11-15 (raw pages)
+
+| Page | Read | Used for |
+|---|---|---|
+| Prompting Fable 5.1 | Sections from "Writing density" to the end | `models.md` (scope, search, edits, long outputs) |
+| Prompting Opus 5 | Sections after capability improvements | `models.md` (over-verification, subagent caps) |
+| Prompting Opus 4.8 | Effort, tool use, literal following, review harnesses | `models.md`, `/review-diff` |
+| Prompting Sonnet 5 | Effort, tool use, literal following, review harnesses | `models.md`, `/review-diff` |
+| Test and evaluate, strengthen guardrails | Downloaded, not read | Not used |
+
 ## Not read
 
 Downloaded but not read: thinking, mid-conversation system messages, refusals and fallback, task budgets, context editing, compaction, prefix checks, per-message effort, the Fable 5.2 migration guide, and the Mythos 5.2 overview. Not downloaded: the support pages for the verification programs. The plugin takes harness facts only from pages marked read.
