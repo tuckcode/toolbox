@@ -4,7 +4,7 @@ Tuck's Claude Code plugins. This repo is a plugin marketplace. Add it once, then
 
 ## Install
 
-The repo is private. Ask Tuck for GitHub access first. Claude Code uses your own git credentials to fetch it.
+The repo is public. Anyone can add the marketplace. The `stepack` plugin lives in a private repo, so it needs GitHub access to [tuckcode/stepack](https://github.com/tuckcode/stepack).
 
 In Claude Code, add the marketplace:
 
@@ -42,7 +42,7 @@ Skill commands change from `/opus-refiner:<skill>` to `/best-practices:<skill>`.
 | `best-practices` | Applies Anthropic's guidance for current Claude models: [Opus 5.5](https://claude.dev/blog/getting-the-most-out-of-opus-5-5/) and [Sonnet 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5). Adds stop and scope rules to each session, asks before destructive shell commands, and adds skills for long runs, subagent audits, reviews, effort, and checks. |
 | `code-review-flow` | A code review process for agent-written code. Based on Anthropic's [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/). Adds skills to verify work, review with a vote of verifiers, run a security pass, cap review rounds, pick a risk tier, write PR bodies, and turn incidents into evals. |
 | `trilemma` | A band above the prompt with 3 suggested next prompts, quick follow-up pills, and a one-line usage strip for context and rate limits. |
-| `stepack` | Plain, exact English for your agent. Lives in [tuckcode/stepack](https://github.com/tuckcode/stepack). Needs access to that repo too. |
+| `stepack` | Plain, exact English for your agent. Lives in [tuckcode/stepack](https://github.com/tuckcode/stepack), a private repo. Ask Tuck for access. |
 
 ## best-practices
 
