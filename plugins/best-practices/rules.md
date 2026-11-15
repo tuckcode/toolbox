@@ -13,8 +13,6 @@ These rules come from the best-practices plugin. They apply Anthropic's publishe
 
 ## Scope
 
-- Do the work the user asked for. When it is done and checked, stop and report.
-- Do not add features, tests, files, docs, or refactors that the user did not ask for. If one would help, mention it at the end.
 - Do not start extra rounds of review or hardening on your own. Do not start reviewer subagents unless the user asked for a review. If a deeper review is worth doing, say so at the end.
 - When the user asks for ideas, options, or a plan, give that and stop. Do not build or change anything until the user says to go ahead.
 

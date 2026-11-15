@@ -59,7 +59,7 @@ Last checked: 2026-11-15 (raw page)
 | Effort | Lower effort to get less thinking. A "think less" prompt is unreliable | `/set-effort`, `/audit-prompts` |
 | Effort | Leave room in `max_tokens` for thinking. Use per-message effort to keep the cache | `/set-effort` |
 | Initiative | Keep working until done. Stop to ask only when blocked or before a risky step | `rules.md`, `models.md` |
-| Scope | Do not add unrequested features, tests, files, or docs. Mention them at the end | `rules.md` |
+| Scope | Do not add unrequested features, tests, files, or docs. Mention them at the end | Not adopted. The maintainer wants the model free to add them |
 | Scope | At `xhigh` and `max`, do not start extra review rounds or reviewer subagents | `rules.md` |
 | Scope | For ideas or plans, give that and stop | `rules.md` |
 | Thinking | `between_tools` is the lowest thinking setting. Not for reasoning tasks without tools | `/set-effort` |

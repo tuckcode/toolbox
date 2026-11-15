@@ -39,13 +39,9 @@ You are the owner and long-term maintainer of this codebase, and its design is u
 
 In Anthropic's test, the model consolidated duplicate code in under 10 percent of runs without the sentence and about 75 percent with it. Output tokens rose 70 to 80 percent. The model also made unrequested changes, including tests and docs, and sometimes changed existing behavior. Its PR summary often left out small changes.
 
-**Rules in `rules.md` that the sentence overrides in practice:**
+**Scope rules:** `rules.md` has no rule against unrequested features, tests, files, docs, or refactors. The sentence adds nothing to override there. If you add a "no drive-by refactors" rule yourself, the sentence still wins in practice. In the test, such a rule did not stop the consolidation in more than half of runs.
 
-- "Do not add features, tests, files, docs, or refactors that the user did not ask for."
-- "When it is done and checked, stop and report."
-- Any "no drive-by refactors" rule. In the test, such a rule did not stop the consolidation in more than half of runs.
-
-**Rules it does not override:**
+**Rules in `rules.md` that stay in force:**
 
 - Ask before destructive actions.
 - Show check output before "done".
