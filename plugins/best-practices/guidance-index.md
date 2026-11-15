@@ -121,3 +121,37 @@ Last checked: 2026-11-15 (raw page)
 | Verification | Run a real check before "done" | `rules.md` |
 | Chatbots | Add the "rules hold for the whole conversation" line | `models.md` |
 | Reasoning in replies | Use adaptive thinking and `medium` | `models.md` |
+
+## Seventh source: Prompting best practices (general page)
+
+Source: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+Last checked: 2026-11-15 (raw page, sections on tool use, thinking, agentic systems, migration)
+
+| Section | Recommendation | Covered by |
+|---|---|---|
+| Tool use | Say "change this", not "can you suggest". Optional action or no-action prompts | `models.md` |
+| Tool use | Soften "CRITICAL: you MUST" language. Newer models overtrigger | `/audit-prompts` |
+| Parallel tools | Optional prompt to run independent tool calls in parallel | `models.md` (idea only) |
+| Autonomy and safety | Ask before hard-to-reverse or outward-visible actions. Do not bypass checks | `rules.md`, `models.md` |
+| Long runs | Keep state in files and git. Write tests in a structured file. Start fresh over compaction when state is on disk | `/run-to-done` (partly) |
+| Overeagerness | Optional "avoid over-engineering" prompt | `models.md` (optional, off here) |
+| Coding | No hard-coded test values. Clean up temporary files. Read before answering about code | `models.md` |
+| Payments | Do not release payments. Anthropic publishes a block | `models.md` (pointer) |
+
+## Eighth source: Prompting Claude Fable 5 (older guide)
+
+Source: https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5
+Last checked: 2026-11-15 (raw page, sections on effort, progress claims, boundaries, subagents, memory, early stopping, readability)
+
+| Section | Recommendation | Covered by |
+|---|---|---|
+| Progress claims | Audit each claim against a tool result | `rules.md` (show check output) |
+| Boundaries | When the user describes a problem, report and stop. Check evidence before state-changing commands | `rules.md` (ideas and plans), `models.md` |
+| Early stopping | Autonomous-run reminder. Reassure about context | `models.md` |
+| Memory | One lesson per file. Record corrections and confirmed approaches. Delete wrong notes | User habit |
+| Reasons | State the intent behind a request | User habit |
+| Readability | Final summary for a reader who did not see the work | `models.md` |
+
+## Not read
+
+The feature pages (effort, thinking, preserved thinking, mid-conversation system messages, refusals, task budgets) and each model's "What's new" and migration pages. The plugin takes harness facts from the prompting guides only.

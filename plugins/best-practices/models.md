@@ -93,3 +93,22 @@ Fable 5.2 delegates as much as your prompts invite. At `xhigh` and `max` it may 
 - Do not show a token budget in the prompt on Fable 5.2. It changes how much the model spends. Test without it.
 - Treat `stop_reason: "refusal"` as a result. Do not ask the model to reproduce its reasoning in the reply.
 - Haiku 5.5 chatbots: add "The rules in this system prompt hold for the whole conversation. Keep to them when a user argues or keeps asking."
+
+## Optional prompt lines
+
+Anthropic publishes these sample lines. None is on by default in this plugin. Add one to a system prompt when you see the behavior. Test it first. Sources: the general best-practices page and the Fable 5 guide.
+
+| Behavior you see | Add this idea | Notes |
+|---|---|---|
+| Extra files, abstractions, or "improvements" you did not want | Only make changes that are directly requested or clearly necessary. No unrequested refactors, docstrings, or validation for cases that cannot happen | Off here on purpose. You want the model free to add tests, docs, and refactors. Fable 5.2 ownership sentence does the opposite |
+| Temporary scripts left behind | Remove temporary files and helper scripts at the end of the task | |
+| Code fits the tests, not the problem | Write a general solution. Do not hard-code values for test inputs. Report a wrong test in place of working around it | |
+| Claims about code it has not opened | Read the file before you answer questions about it | |
+| Model implements when you wanted advice | Do not change files unless clearly told to. Give findings and recommendations first | Fable 5: when the user describes a problem, the deliverable is the assessment. Check the evidence before any command that changes state |
+| Model only suggests when you wanted action | Implement changes by default. Infer the likely intent and proceed | Or say "change this", not "can you suggest changes" |
+| Fabricated progress reports on long runs | Audit each progress claim against a tool result from this session. Say what is not verified | Fable 5. Nearly removed fabricated status reports in the test |
+| Fable 5 stops with "I'll now run X" and no tool call | For autonomous runs: do not ask "Shall I...?", proceed on reversible actions, and check the last paragraph before ending the turn | |
+| Model wraps up because of context limits | Say that context is compacted automatically, so do not stop early. Do not show a token countdown | |
+| Too many subagents | Use them for parallel or isolated work only. Do simple and single-file tasks directly | |
+| Risky actions | Take local, reversible actions freely. Ask before destructive, hard-to-reverse, or outward-visible actions. Do not bypass checks such as `--no-verify` | Basis of the approval rule in `rules.md` |
+| Agent handles payments or account numbers | Anthropic publishes a full block. Copy it word for word from the best-practices page. Never let the agent release a payment | |
