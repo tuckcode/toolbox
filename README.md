@@ -15,7 +15,7 @@ In Claude Code, add the marketplace:
 Then install a plugin:
 
 ```
-/plugin install opus-refiner@toolbox
+/plugin install best-practices@toolbox
 ```
 
 To get updates later:
@@ -24,18 +24,33 @@ To get updates later:
 /plugin marketplace update toolbox
 ```
 
+## Upgrading from opus-refiner
+
+The plugin `opus-refiner` is now `best-practices`. Installed copies do not update to the new name on their own. Run these two commands:
+
+```
+/plugin uninstall opus-refiner@toolbox
+/plugin install best-practices@toolbox
+```
+
+Skill commands change from `/opus-refiner:<skill>` to `/best-practices:<skill>`.
+
 ## Plugins
 
 | Plugin | What it does |
 |---|---|
-| `opus-refiner` | Applies Anthropic's [Opus 5.5 guidance](https://claude.dev/blog/getting-the-most-out-of-opus-5-5/). Adds stop rules and end-of-run headings to each session, asks before destructive shell commands, and adds skills for long runs, subagent audits, reviews, and checks. |
+| `best-practices` | Applies Anthropic's guidance for current Claude models: Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5. Adds stop and scope rules to each session, asks before destructive shell commands, and adds skills for long runs, subagent audits, reviews, effort, and checks. |
 | `code-review-flow` | A code review process for agent-written code. Based on Anthropic's [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/). Adds skills to verify work, review with a vote of verifiers, run a security pass, cap review rounds, pick a risk tier, write PR bodies, and turn incidents into evals. |
 | `trilemma` | A band above the prompt with 3 suggested next prompts, quick follow-up pills, and a one-line usage strip for context and rate limits. |
 | `stepack` | Plain, exact English for your agent. Lives in [tuckcode/stepack](https://github.com/tuckcode/stepack), a private repo. Ask Tuck for access. |
 
-## opus-refiner
+## best-practices
 
-**Each session:** A SessionStart hook loads [`rules.md`](plugins/opus-refiner/rules.md): continue without check-ins, stop before destructive actions, keep `TASKS.md` on long runs, end with **Blocked on me / Changed / Found**, show check output before you say done, and mark unconfirmed claims.
+**Each session:** A SessionStart hook loads [`rules.md`](plugins/best-practices/rules.md): continue without check-ins, no self-started review rounds, ask before destructive actions, keep `TASKS.md` on long runs, end with **Blocked on me / Changed / Found**, show check output before you say done, and mark unconfirmed claims.
+
+**Per-model notes:** [`models.md`](plugins/best-practices/models.md) holds what differs by model: default effort, early-stop text, the Fable 5.2 code-ownership sentence, search and date lines, and harness notes. Skills read it. It is not loaded each session.
+
+**General rules:** [`principles.md`](plugins/best-practices/principles.md) holds model-neutral prompt-writing rules: the colleague test, reasons, examples, XML tags, long-document order, and positive wording. `/audit-prompts` reads it.
 
 **Before shell commands:** A PreToolUse hook asks you before `git push --force`, `git reset --hard`, `git clean -f`, `git branch -D`, and `rm -rf`. It asks even in auto mode.
 
@@ -43,13 +58,17 @@ To get updates later:
 
 | Skill | Use it to |
 |---|---|
-| `/opus-refiner:run-to-done` | Set a finish line, then let the agent run to it. Stops after three review-fix rounds |
-| `/opus-refiner:fan-out` | Split an audit or migration across subagents and check their evidence |
-| `/opus-refiner:review-diff` | List only the merge-blocking problems in the branch or a pull request, with proof. A fresh subagent verifies each one. Old bugs go in a separate Pre-existing list |
-| `/opus-refiner:check-doc` | Find contradictions in numbers, dates, and names in a long document |
-| `/opus-refiner:design-avoid` | Keep a UI away from the model's default look |
-| `/opus-refiner:audit-prompts` | Find "think hard" and "show your reasoning" in your own instructions |
-| `/opus-refiner:sync-guidance` | Maintainer only. Compare the plugin with the latest guidance post |
+| `/best-practices:run-to-done` | Set a finish line, then let the agent run to it. Stops after three review-fix rounds |
+| `/best-practices:fan-out` | Split an audit or migration across subagents and check their evidence |
+| `/best-practices:review-diff` | List only the merge-blocking problems in the branch or a pull request, with proof. A fresh subagent verifies each one. Old bugs go in a separate Pre-existing list |
+| `/best-practices:check-doc` | Find contradictions in numbers, dates, and names in a long document |
+| `/best-practices:design-avoid` | Keep a UI away from the model's default look |
+| `/best-practices:audit-prompts` | Find "think hard", "show your reasoning", "minimize tool calls", and similar rules in your own instructions |
+| `/best-practices:own-it` | Run one coding task as the code owner (Fable 5.2 stance), then review the diff and list every unrequested change |
+| `/best-practices:handoff` | Write the final report of a long run for a reader who did not see the work |
+| `/best-practices:prune-memory` | Find old cautions, absolute rules, and stale notes in instruction and memory files |
+| `/best-practices:set-effort` | Pick an effort level and thinking setting for a task |
+| `/best-practices:sync-guidance` | Maintainer only. Compare the plugin with the latest guidance |
 
 **Not covered by a plugin:** the model picker, `/fast`, and the "switch models when a message is flagged" setting. Set those yourself.
 
@@ -92,7 +111,7 @@ To develop it without installing: `claude --plugin-dir plugins/trilemma`. Tests:
 
 ## Maintaining
 
-1. Run `/opus-refiner:sync-guidance` in this repo.
+1. Run `/best-practices:sync-guidance` in this repo.
 2. Approve the drafted edits.
 3. Raise `version` in the plugin's `plugin.json`. Users stay on the old version until you do.
 4. Push. Users get the change on `/plugin marketplace update toolbox`.
