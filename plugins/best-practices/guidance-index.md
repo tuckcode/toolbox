@@ -85,10 +85,10 @@ Last checked: 2026-11-15 (raw page)
 | Code ownership | The owner sentence makes the model consolidate code. It raises tokens and unrequested changes | `models.md` |
 | Progress | Set `display: "updates"`. Ask for an opening line and a recap | `models.md` |
 | Subagents | State the cost of a subagent. Check the subagent model | `models.md` |
-| Caution | Delete old notes. Write "ask before" in place of "never" | `models.md`, `/audit-prompts` |
+| Caution | Delete old notes. Write "ask before" in place of "never" | `models.md`, `/audit-prompts`, `/prune-memory` |
 | Earlier prompts | Remove "think less", hard style limits, "treat as done" lines, and token budgets in the prompt | `models.md`, `/audit-prompts` |
 | Harness | Keep history append-only. Preserved thinking breaks on edits | `models.md` |
-| Reports | Write for a low-context reader | `models.md` |
+| Reports | Write for a low-context reader | `models.md`, `/handoff` |
 
 ## Fifth source: Prompting Claude Opus 5.5
 

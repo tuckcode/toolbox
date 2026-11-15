@@ -65,6 +65,8 @@ Skill commands change from `/opus-refiner:<skill>` to `/best-practices:<skill>`.
 | `/best-practices:design-avoid` | Keep a UI away from the model's default look |
 | `/best-practices:audit-prompts` | Find "think hard", "show your reasoning", "minimize tool calls", and similar rules in your own instructions |
 | `/best-practices:own-it` | Run one coding task as the code owner (Fable 5.2 stance), then review the diff and list every unrequested change |
+| `/best-practices:handoff` | Write the final report of a long run for a reader who did not see the work |
+| `/best-practices:prune-memory` | Find old cautions, absolute rules, and stale notes in instruction and memory files |
 | `/best-practices:set-effort` | Pick an effort level and thinking setting for a task |
 | `/best-practices:sync-guidance` | Maintainer only. Compare the plugin with the latest guidance |
 
