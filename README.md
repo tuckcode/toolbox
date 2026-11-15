@@ -50,6 +50,8 @@ Skill commands change from `/opus-refiner:<skill>` to `/best-practices:<skill>`.
 
 **Per-model notes:** [`models.md`](plugins/best-practices/models.md) holds what differs by model: default effort, early-stop text, the Fable 5.2 code-ownership sentence, search and date lines, and harness notes. Skills read it. It is not loaded each session.
 
+**General rules:** [`principles.md`](plugins/best-practices/principles.md) holds model-neutral prompt-writing rules: the colleague test, reasons, examples, XML tags, long-document order, and positive wording. `/audit-prompts` reads it.
+
 **Before shell commands:** A PreToolUse hook asks you before `git push --force`, `git reset --hard`, `git clean -f`, `git branch -D`, and `rm -rf`. It asks even in auto mode.
 
 **Skills** (type them; the agent does not start them on its own):

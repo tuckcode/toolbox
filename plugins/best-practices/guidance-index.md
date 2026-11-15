@@ -137,6 +137,8 @@ Last checked: 2026-11-15 (raw page, sections on tool use, thinking, agentic syst
 | Overeagerness | Optional "avoid over-engineering" prompt | `models.md` (optional, off here) |
 | Coding | No hard-coded test values. Clean up temporary files. Read before answering about code | `models.md` |
 | Payments | Do not release payments. Anthropic publishes a block | `models.md` (pointer) |
+| General principles | Colleague test, reasons, examples, XML tags, role, long-document order, positive wording, format matching | `principles.md`, `/audit-prompts` |
+| Long work | Preserve list for compaction. Prefer small edits. Keep state in files | `principles.md` |
 
 ## Eighth source: Prompting Claude Fable 5 (older guide)
 

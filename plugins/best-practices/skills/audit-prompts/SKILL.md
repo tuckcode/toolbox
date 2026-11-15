@@ -28,6 +28,9 @@ Search these files. Skip any that do not exist:
 - **Hard style limits**: "one idea per sentence in 20 words or fewer". Fable 5.2 follows them so closely that prose turns choppy.
 - **Standing delegation orders**: lines that tell the model to delegate. They raise subagent cost.
 - **"Treat that answer as done"**: it reduces self-correction on Fable 5.2. Flag it and point to `models.md`.
+- **Negative rules**: "do not use markdown" and similar. Read `principles.md`. Propose the positive form: say what to do.
+- **Shouting**: "CRITICAL", "MUST", "ALWAYS" on a tool or skill. Newer models overtrigger. Propose plain wording.
+- **Missing reason**: a rule with no reason and no scope. Propose adding one short reason.
 - **No-think rules**: "do not think", "skip thinking". They can make internal tags leak into the reply.
 
 A match in quoted text, an example, or code that processes such phrases is not an instruction. Leave it.
