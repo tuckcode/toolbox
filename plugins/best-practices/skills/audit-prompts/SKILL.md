@@ -23,6 +23,11 @@ Search these files. Skip any that do not exist:
 
 - **Tool discouragement**: "only use tools when strictly necessary", "minimize tool calls", and close variants. They make the model answer from memory when a search would catch changes.
 - **Hold-back rules**: "hold all findings for the final response", "do not write text between tool calls". They make long turns look silent.
+- **Absolute rules**: "never" or "always" rules for actions the agent may sometimes need, such as "never delete files". Current models treat them as absolute. Propose "ask before deleting files".
+- **Piled-up caution**: old notes or memory such as "never retry" or "stop at the first error". They cause needless approval requests.
+- **Hard style limits**: "one idea per sentence in 20 words or fewer". Fable 5.2 follows them so closely that prose turns choppy.
+- **Standing delegation orders**: lines that tell the model to delegate. They raise subagent cost.
+- **"Treat that answer as done"**: it reduces self-correction on Fable 5.2. Flag it and point to `models.md`.
 - **No-think rules**: "do not think", "skip thinking". They can make internal tags leak into the reply.
 
 A match in quoted text, an example, or code that processes such phrases is not an instruction. Leave it.
@@ -35,6 +40,7 @@ One row per match: file, line, the quoted text, and a proposed replacement.
 - For a tool discouragement, propose deletion. Where search is needed, propose: "Use the search tool to check facts that may have changed."
 - For a hold-back rule, propose deletion. Where updates are wanted, propose: "Give a one-line note before the first tool call and a short recap at the end."
 - For a no-think rule, propose deletion. Point to the effort setting.
+- For the other new matches, propose a rewrite or deletion with the reason in one sentence.
 - For a reasoning request, propose a request for the result: "Explain why you chose this approach in three sentences."
 
 Change no file until the user approves. Then apply only the approved rows.

@@ -39,7 +39,7 @@ Skill commands change from `/opus-refiner:<skill>` to `/best-practices:<skill>`.
 
 | Plugin | What it does |
 |---|---|
-| `best-practices` | Applies Anthropic's guidance for current Claude models: [Opus 5.5](https://claude.dev/blog/getting-the-most-out-of-opus-5-5/) and [Sonnet 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5). Adds stop and scope rules to each session, asks before destructive shell commands, and adds skills for long runs, subagent audits, reviews, effort, and checks. |
+| `best-practices` | Applies Anthropic's guidance for current Claude models: Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5. Adds stop and scope rules to each session, asks before destructive shell commands, and adds skills for long runs, subagent audits, reviews, effort, and checks. |
 | `code-review-flow` | A code review process for agent-written code. Based on Anthropic's [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/). Adds skills to verify work, review with a vote of verifiers, run a security pass, cap review rounds, pick a risk tier, write PR bodies, and turn incidents into evals. |
 | `trilemma` | A band above the prompt with 3 suggested next prompts, quick follow-up pills, and a one-line usage strip for context and rate limits. |
 | `stepack` | Plain, exact English for your agent. Lives in [tuckcode/stepack](https://github.com/tuckcode/stepack), a private repo. Ask Tuck for access. |
@@ -47,6 +47,8 @@ Skill commands change from `/opus-refiner:<skill>` to `/best-practices:<skill>`.
 ## best-practices
 
 **Each session:** A SessionStart hook loads [`rules.md`](plugins/best-practices/rules.md): continue without check-ins, stay in scope, stop before destructive actions, keep `TASKS.md` on long runs, end with **Blocked on me / Changed / Found**, show check output before you say done, and mark unconfirmed claims.
+
+**Per-model notes:** [`models.md`](plugins/best-practices/models.md) holds what differs by model: default effort, early-stop text, the Fable 5.2 code-ownership sentence, search and date lines, and harness notes. Skills read it. It is not loaded each session.
 
 **Before shell commands:** A PreToolUse hook asks you before `git push --force`, `git reset --hard`, `git clean -f`, `git branch -D`, and `rm -rf`. It asks even in auto mode.
 

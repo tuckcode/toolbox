@@ -4,9 +4,11 @@ description: Pick an effort level and thinking setting for a task or integration
 disable-model-invocation: true
 ---
 
-Recommend an effort level for the task in the arguments. Base it on Anthropic's guidance for the current Claude models.
+Recommend an effort level for the task in the arguments. Read `models.md` in the plugin root first. Use the model that the arguments name. If none is named, ask which model.
 
 ## Starting points
+
+API defaults differ: Fable 5.2 and Sonnet 5.5 default to `high`, Opus 5.5 and Haiku 5.5 to `medium`. Set the level explicitly.
 
 - **Agentic coding, well-specified:** `medium`.
 - **Agentic coding, hard or long:** `high`.
@@ -20,10 +22,11 @@ Recommend an effort level for the task in the arguments. Base it on Anthropic's 
 - To get less thinking, lower the effort level. A "think less" line in a prompt is not reliable.
 - Changing top-level `effort` between API requests invalidates the prompt cache. Use per-message effort (beta) to change it mid-conversation.
 - Thinking counts toward `max_tokens`. Leave room for it. For agentic coding, use the model maximum and stream.
-- `thinking: {"type": "between_tools"}` is the lowest thinking setting. It works at `high` or below. It cannot change effort mid-conversation.
+- Sonnet 5.5 only: `thinking: {"type": "between_tools"}` is the lowest thinking setting. It works at `high` or below. It cannot change effort mid-conversation.
+- Fable 5.2 and Opus 5.5 think by default. Haiku 5.5 allows `thinking: {"type": "disabled"}` at `high` or below.
 - For JSON answers that need working out, use adaptive thinking. Add "Think the problem through before you answer." or use `xhigh`.
-- At `low` and `medium`, the model may stop to check in or skip a real verification. Add the carry-through and verification lines from `rules.md`.
+- At `low` and `medium`, the model may stop to check in or skip a real verification. Add the early-stop text from `models.md` and the verification rule from `rules.md`.
 
 ## Output
 
-Give the recommended level, the thinking setting, and one line on why. Name each prompt line from `rules.md` that the task needs. State what you could not confirm against the live docs, and where you looked.
+Give the recommended level, the thinking setting, and one line on why. Name each prompt line from `rules.md` or `models.md` that the task needs. State what you could not confirm against the live docs, and where you looked.

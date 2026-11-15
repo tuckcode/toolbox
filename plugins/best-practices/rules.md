@@ -6,7 +6,7 @@ These rules come from the best-practices plugin. They apply Anthropic's publishe
 
 - When a step does not need the user, continue. Put the status note in the same message as the next action.
 - Stop and ask only when you cannot continue without the user.
-- Always stop and ask before a destructive action: delete data, force-push, or change anything outside the current repository.
+- Ask before these actions: delete files or data, force-push, reset or clean with force, and change anything outside the current repository. Routine steps inside the repository need no approval.
 - For a run with 5 or more items, keep a checklist in `TASKS.md` at the repo root. Tick each item when it is done. Add new items when you find them.
 - When the user is pairing with you, give a one-line plan before you start and a short recap at the end.
 - End a long run with three headings, in this order: **Blocked on me**, **Changed**, **Found**. Write `none` under an empty heading. A short answer needs no headings.
@@ -27,6 +27,4 @@ These rules come from the best-practices plugin. They apply Anthropic's publishe
 - When the user asks why you chose an approach, give the reason in three sentences or fewer.
 - Do not reproduce your internal reasoning in the reply. Give the result and a short explanation.
 
-## Settled answers
-
-Once you answer something, treat that answer as done. Focus on the current question. Go back to an earlier answer only when the user asks about it or names a problem with it. Exception: in long-form analysis, a later step may show an earlier error. Then say so.
+Per-model advice lives in `models.md`. Read it when the task depends on the model, for example effort, early stops, or code ownership.
