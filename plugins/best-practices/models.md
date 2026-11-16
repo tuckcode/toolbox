@@ -6,7 +6,7 @@ Sources are in `guidance-index.md`. Last checked: 2026-11-15.
 
 ## Defaults and effort
 
-| Model | API default effort | Notes |
+| Model | API default effort (Claude Code may differ) | Notes |
 |---|---|---|
 | Fable 5.2 | `high` | Thinks before almost every reply. "Answer directly" does not stop that at `medium` and above. Lower the effort instead. |
 | Opus 5.5 | `medium` | `medium` matches Opus 5 at `high`. Thinking is always on. |
@@ -14,6 +14,12 @@ Sources are in `guidance-index.md`. Last checked: 2026-11-15.
 | Haiku 5.5 | `medium` | `low` suits chat and high volume. |
 
 All models: sweep effort on your own evals. Do not carry a setting over from an older model. Use `xhigh` and `max` only where you measured a gain. Lowering effort cuts thinking more reliably than a prompt line.
+
+## Choosing a model
+
+- Start with Opus 5.5 for most work. Move to Fable 5.2 when your results on Opus 5.5 at higher effort still fall short.
+- Fable 5.2 costs twice as much per token as Opus 5.5 ($8 and $40 per million tokens against $4 and $20). It has its own rate limit, which is lower. Its default effort is `high`, one level above Opus 5.5.
+- Switching from Fable 5.2 to another model loses the Fable reasoning for the turns after the switch. The first turn costs more and takes longer. Switch at a task boundary, after `/best-practices:handoff`.
 
 ## Early stops
 

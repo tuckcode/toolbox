@@ -12,7 +12,7 @@ Turn the task in the arguments into a run with a finish line. Then do the run.
 2. Write the **stop** line: the conditions that need the user. Default: a failure you cannot explain, a destructive action, or a fourth review-fix round (see Round cap).
 3. Write `TASKS.md` at the repo root. One checkbox per item. Put the done line at the top.
 4. Work through the list. Tick an item only after a check shows that it works. Do not tick it when the code is written. Add new items when you find them. Put status notes in the same message as the next action.
-5. Before you stop, check the done line against the real state: run the tests, grep for old names, open the output. Show the command output. A syntax-only check does not count. Do not claim success without output.
+5. Before you stop, check the done line against the real state: run the tests, grep for old names, open the output. Show the command output. A syntax-only check does not count. If only the project's declared dependencies are missing, install them with its own package manager. Do not use `sudo` or the system package manager unless told to. Do not claim success without output.
 6. End with three headings, in this order: **Blocked on me**, **Changed**, **Found**.
 
 The run is done when the done line is true and every box in `TASKS.md` is ticked or marked as blocked with a reason.

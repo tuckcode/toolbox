@@ -46,7 +46,7 @@ Skill commands change from `/opus-refiner:<skill>` to `/best-practices:<skill>`.
 
 ## best-practices
 
-**Each session:** A SessionStart hook loads [`rules.md`](plugins/best-practices/rules.md): continue without check-ins, no self-started review rounds, ask before destructive actions, keep `TASKS.md` on long runs, end with **Blocked on me / Changed / Found**, show check output before you say done, and mark unconfirmed claims.
+**Each session:** A SessionStart hook loads [`rules.md`](plugins/best-practices/rules.md): continue without check-ins, ask before the listed destructive actions, end a multi-step task with **Blocked on me / Changed / Found** (listing every change), start reviewer subagents only when asked, stop after ideas or plans, show check output before you say done, and mark unconfirmed claims. The file stays short on purpose. New guidance goes to a skill or a reference file unless it passes the rubric in `/sync-guidance`.
 
 **Per-model notes:** [`models.md`](plugins/best-practices/models.md) holds what differs by model: default effort, early-stop text, the Fable 5.2 code-ownership sentence, search and date lines, and harness notes. Skills read it. It is not loaded each session.
 

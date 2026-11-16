@@ -47,4 +47,5 @@ Sources are in `guidance-index.md`. Last checked: 2026-11-15.
 
 - Tell Claude to read a file before it answers about it.
 - Ask Claude to report what it could not verify.
+- Ask for a short explanation or a summary of the actions taken. Do not ask Claude to write out its reasoning. That request can be declined.
 - Test each prompt change on your own tasks. A line that helps one model can hurt another.
