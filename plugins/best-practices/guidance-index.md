@@ -17,9 +17,9 @@ Last checked: 2026-10-17
 | Long runs | Say which stops you want, including before destructive actions | `rules.md` |
 | Long runs | Keep permission prompts for destructive commands | `scripts/guard-destructive.sh` |
 | Long runs | Split big audits and migrations across subagents and check their evidence | `/fan-out` |
-| Long runs | Keep the task list in a file | `rules.md`, `/run-to-done` |
+| Long runs | Keep the task list in a file | `/run-to-done` |
 | Long runs | Reply "continue" when a run pauses to offer more | User habit (`rules.md` tells the model to keep going) |
-| Long runs | When pairing, ask for a one-line plan first and a short recap at the end | `rules.md` |
+| Long runs | When pairing, ask for a one-line plan first and a short recap at the end | Not adopted. The trigger is vague. `models.md` covers the opening line |
 | Checking | Read what it needs from you first; set end-of-run headings | `rules.md` |
 | Checking | Ask it to review the diff or PR before a human does | `/review-diff` |
 | Checking | Ask it to mark what it could not confirm | `rules.md` |
@@ -32,7 +32,7 @@ Last checked: 2026-10-17
 | Flags | In apps, switch back with the model picker or start a new chat | User habit |
 | Flags | In Claude Code, press Esc twice, run /model, or run /feedback | User habit |
 | Flags | Do not ask it to show its reasoning | `/audit-prompts` |
-| Flags | Ask for a three-sentence reason in place of its reasoning | `rules.md` |
+| Flags | Ask for a three-sentence reason in place of its reasoning | `principles.md` (short explanation). The three-sentence limit is not adopted |
 | Speed | Use fast mode for back-and-forth work. `/fast` turns it on. It needs extra usage and costs more per token | User setting |
 
 ## Second source: code review at Anthropic
@@ -60,17 +60,17 @@ Last checked: 2026-11-15 (raw page)
 | Effort | Leave room in `max_tokens` for thinking. Use per-message effort to keep the cache | `/set-effort` |
 | Initiative | Keep working until done. Stop to ask only when blocked or before a risky step | `rules.md`, `models.md` |
 | Scope | Do not add unrequested features, tests, files, or docs. Mention them at the end | Not adopted. The maintainer wants the model free to add them |
-| Scope | At `xhigh` and `max`, do not start extra review rounds or reviewer subagents | `rules.md` |
+| Scope | At `xhigh` and `max`, do not start extra review rounds or reviewer subagents | `rules.md` (subagents only) |
 | Scope | For ideas or plans, give that and stop | `rules.md` |
 | Thinking | `between_tools` is the lowest thinking setting. Not for reasoning tasks without tools | `/set-effort` |
 | JSON output | Add "Think the problem through before you answer." Or use `xhigh`. Parse the last JSON value | `/set-effort` |
 | Progress | Show updates between tool calls. Remove "hold all findings" rules | `/audit-prompts` |
 | Tool use | Search for facts that may have changed. Remove "minimize tool calls" | `rules.md`, `/audit-prompts` |
 | Mid-turn messages | Send user text as a user turn, never inside a `tool_result` | Harness builders only. Not built |
-| Verification | Run a real check before "done". Install declared dependencies if missing | `rules.md`, `/run-to-done` |
+| Verification | Run a real check before "done". Install declared dependencies if missing | `rules.md` (check), `/run-to-done` (install) |
 | Tool calls | Accept tool names that differ only in letter case | Harness builders only. Not built |
 | Visual input | Give crop or zoom tools for dense charts | User habit |
-| Refusals | Do not ask for reasoning in the reply. Read summarized thinking blocks | `rules.md`, `/audit-prompts` |
+| Refusals | Do not ask for reasoning in the reply. Read summarized thinking blocks | `principles.md`, `/audit-prompts` |
 
 ## Fourth source: Prompting Claude Fable 5.2
 
@@ -164,11 +164,16 @@ Last checked: 2026-11-15 (raw pages)
 | Effort | The levels table and per-model section | Defaults and `xhigh` and `max` support in `models.md` |
 | Preserved thinking | The opening sections | Switching models in `models.md` |
 | Change tools or instructions | The opening sections | Not used. Harness builders only |
+| What's new: Opus 5.5, Sonnet 5.5, Haiku 5.5 | Breaking changes, behavior differences | API limits in `models.md` |
 
 ## Scope of this index
 
 The plugin tracks Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5. Older guides (Fable 5.1, Fable 5, Opus 5, Opus 4.8, Sonnet 5) were read once on 2026-11-15. Only the code-review and literal-instruction findings carried over. See `models.md`.
 
+## Eleventh source: API pages read on 2026-11-15
+
+Read as prose, without code samples: mid-conversation system messages, thinking, refusals and fallback, Agent Skills overview, handling stop reasons, context windows, task budgets, context editing, and the memory tool. Findings are in `models.md`, `/run-to-done`, and `/prune-memory`.
+
 ## Not read
 
-Downloaded but not read: thinking, mid-conversation system messages, refusals and fallback, task budgets, context editing, compaction, prefix checks, per-message effort, the Fable 5.2 migration guide, and the Mythos 5.2 overview. Not downloaded: the support pages for the verification programs. The plugin takes harness facts only from pages marked read.
+Downloaded but not read: computer use, browser use, structured outputs, streaming, define tools, tool use overview, handle tool calls, web search, errors, thinking troubleshooting, extended thinking, compaction, secure deployment, models overview, prefix checks, per-message effort, most of the Fable 5.2 and Haiku 5.5 migration guides, and the Mythos 5.2 overview. Not downloaded: the support pages for the verification programs. The plugin takes harness facts only from pages marked read.

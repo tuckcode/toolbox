@@ -30,7 +30,7 @@ These are positive limits. They are a hypothesis. Anthropic's guide tested only 
 1. Write the base: the commit or branch the diff starts from. Default `main`. Run `git status` and stop if the tree has uncommitted work that is not yours. Ask first.
 2. Take this stance for the whole run: you are the owner and long-term maintainer of this codebase, and its design is up to you. Work inside the Guardrails. Improve the structure in the area. Merge duplicate code. Fix related problems you find in the area.
 3. Do the task. Run a real check before you stop: the tests, the type-checker, or the build. Show the output.
-4. Run `/best-practices:review-diff` on the diff against the base.
+4. Review the diff against the base. Read `../review-diff/SKILL.md` in the plugin's skills folder and follow its steps. Do not call it as a skill, because it is typed by the user only.
 5. Check the budget. Compare `git diff <base>...HEAD --name-only` with `protect`, `area`, and `max-files`. List each breach. Do not undo a breach yourself. Ask the user.
 6. List every change that the task did not ask for. Use one row each: file, what changed, why, and whether behavior changed. Mark a behavior change in bold. Your own summary may leave out small changes, so build the list from `git diff <base>...HEAD --stat` and the diff itself.
 7. End with three headings, in this order: **Blocked on me**, **Changed**, **Found**. Put the unrequested-change table under **Changed**.

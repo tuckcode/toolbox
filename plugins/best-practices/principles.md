@@ -1,6 +1,8 @@
 # Prompt-writing principles
 
-Rules of thumb that hold across current Claude models. They come from the general best-practices page. A few come from the older Fable guides and are marked. Skills read this file. The session hook does not load it.
+Rules of thumb from the general best-practices page. The page introduces them as techniques for all current Claude models. The sentence under its "General principles" heading names only the Fable and Mythos models, so the list there may be out of date. This plugin applies the rules to Opus 5.5, Sonnet 5.5, Fable 5.2, and Haiku 5.5.
+
+A technique that names a model was measured on that model. Re-check it on your own tasks before you use it on another model. A few rules come from the older Fable guides and are marked. Skills read this file. The session hook does not load it.
 
 Sources are in `guidance-index.md`. Last checked: 2026-11-15.
 
@@ -45,4 +47,5 @@ Sources are in `guidance-index.md`. Last checked: 2026-11-15.
 
 - Tell Claude to read a file before it answers about it.
 - Ask Claude to report what it could not verify.
+- Ask for a short explanation or a summary of the actions taken. Do not ask Claude to write out its reasoning. That request can be declined.
 - Test each prompt change on your own tasks. A line that helps one model can hurt another.

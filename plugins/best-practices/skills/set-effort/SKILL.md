@@ -25,7 +25,7 @@ API defaults differ: Fable 5.2 and Sonnet 5.5 default to `high`, Opus 5.5 and Ha
 - Sonnet 5.5 only: `thinking: {"type": "between_tools"}` is the lowest thinking setting. It works at `high` or below. It cannot change effort mid-conversation.
 - Fable 5.2 and Opus 5.5 think by default. Haiku 5.5 allows `thinking: {"type": "disabled"}` at `high` or below.
 - For JSON answers that need working out, use adaptive thinking. Add "Think the problem through before you answer." or use `xhigh`.
-- At `low` and `medium`, the model may stop to check in or skip a real verification. Add the early-stop text from `models.md` and the verification rule from `rules.md`.
+- Lower effort has a cost. At `low` and `medium`, every model stops early more often, and Sonnet 5.5 and Haiku 5.5 skip real checks more often. Say this when you recommend `low` or `medium`. Add the early-stop text from `models.md`, and point to `/best-practices:run-to-done` for long tasks.
 
 ## Output
 

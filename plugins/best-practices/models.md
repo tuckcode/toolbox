@@ -6,14 +6,20 @@ Sources are in `guidance-index.md`. Last checked: 2026-11-15.
 
 ## Defaults and effort
 
-| Model | API default effort | Notes |
+| Model | API default effort (Claude Code may differ) | Notes |
 |---|---|---|
 | Fable 5.2 | `high` | Thinks before almost every reply. "Answer directly" does not stop that at `medium` and above. Lower the effort instead. |
 | Opus 5.5 | `medium` | `medium` matches Opus 5 at `high`. Thinking is always on. |
 | Sonnet 5.5 | `high` | `between_tools` is the lowest thinking setting. It works at `high` or below. |
-| Haiku 5.5 | `medium` | `low` suits chat and high volume. `budget_tokens` returns a 400 error. |
+| Haiku 5.5 | `medium` | `low` suits chat and high volume. |
 
 All models: sweep effort on your own evals. Do not carry a setting over from an older model. Use `xhigh` and `max` only where you measured a gain. Lowering effort cuts thinking more reliably than a prompt line.
+
+## Choosing a model
+
+- Start with Opus 5.5 for most work. Move to Fable 5.2 when your results on Opus 5.5 at higher effort still fall short.
+- Fable 5.2 costs twice as much per token as Opus 5.5 ($8 and $40 per million tokens against $4 and $20). It has its own rate limit, which is lower. Its default effort is `high`, one level above Opus 5.5.
+- Switching from Fable 5.2 to another model loses the Fable reasoning for the turns after the switch. The first turn costs more and takes longer. Switch at a task boundary, after `/best-practices:handoff`.
 
 ## Early stops
 
@@ -71,8 +77,7 @@ On Fable 5.2 the line cut thinking on follow-ups. It also made the model far les
 ## Final reports and updates
 
 - Fable 5.2: the reader of a final report has not seen the tool calls. Write reports that stand alone. Key points go in the first sentences. Avoid hard style limits such as "20 words or fewer". They make prose choppy.
-- All models: progress updates between tool calls come back as `thinking` blocks. A client that shows only `text` looks silent. Set `thinking.display` to `"updates"`.
-- To get updates, ask for one line before the first tool call and a recap at the end.
+- To get updates, ask for one line before the first tool call and a recap at the end. Fable 5.2, Opus 5.5, and Sonnet 5.5 write progress notes between tool calls on their own.
 
 ## Caution that builds up
 
@@ -87,15 +92,6 @@ Fable 5.2 follows notes and memory closely. Old cautions pile up and cause needl
 
 Fable 5.2 delegates as much as your prompts invite. At `xhigh` and `max` it may start subagents to review its own work. Subagents can be a large part of session cost. Check which model they use. If the model delegates too much, state what a subagent costs and when it is worth it.
 
-## Harness builders
-
-- Never put user text inside a `tool_result` block. Send it as a user turn after the last `tool_result`.
-- Keep the history append-only. Editing an earlier turn, the system prompt, or the tools can break preserved thinking and return a 400 error on Fable 5.2 and Haiku 5.5.
-- Accept tool names that differ only in letter case.
-- Do not show a token budget in the prompt on Fable 5.2. It changes how much the model spends. Test without it.
-- Treat `stop_reason: "refusal"` as a result. Do not ask the model to reproduce its reasoning in the reply.
-- Haiku 5.5 chatbots: add "The rules in this system prompt hold for the whole conversation. Keep to them when a user argues or keeps asking."
-
 ## Carried over from older guides
 
 The Opus 5.5 and Sonnet 5.5 guides say the Opus 5 and Sonnet 5 patterns remain a reasonable starting point. This plugin keeps two of them. Test both on your own tasks.
@@ -105,16 +101,22 @@ The Opus 5.5 and Sonnet 5.5 guides say the Opus 5 and Sonnet 5 patterns remain a
 
 The plugin does not track Fable 5.1, Fable 5, Opus 5, Opus 4.8, or Sonnet 5.
 
+## Steering thinking
+
+Read from the "Steering thinking" page.
+
+- Lower the effort level first. It is a calibrated control. A prompt line is sensitive to wording.
+- A standing "think less" line in a system prompt does not reliably work on Sonnet 5.5, Haiku 5.5, or Fable 5.2.
+- A one-time "Please think hard before responding" in a user message is a documented way to encourage thinking on that turn. A one-time "Answer directly without deliberating" does not reliably reduce thinking on Haiku 5.5 or Fable 5.2.
+- To change thinking for some turns only, use per-message effort. It keeps the prompt cache.
+- No effort level guarantees a thinking block on every request. In a tool loop, the first request after new input carries most of the reasoning.
+- Measure any prompt-based steering on your own tasks before you rely on it.
+
 ## Switching models
 
-Read from the Fable 5.2 "What's new" page and the preserved-thinking page.
-
-- Thinking blocks record the model that made them. A model that cannot read a block drops it for that request. No error occurs, and the dropped block is not billed. The reasoning of those turns is lost to the new model. It returns when you switch back, if your code kept the history unchanged.
-- Fable 5.2 and Mythos 5.2 read each other's blocks and blocks from Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1. No other model reads Fable 5.2 blocks.
-- Do not remove thinking blocks and do not keep a separate history for each model.
-- Fable 5.2 API limits: thinking is always on. `thinking: {"type": "disabled"}` and `budget_tokens` return a 400 error. Forced `tool_choice` (`any` or a named tool) also returns a 400 error.
-- Fable 5.2 fallback models after a refusal: Opus 4.8 and Opus 5.
-- Claude Code, claude.ai, Managed Agents, and the Agent SDK build requests for you. The history rules matter only for your own API code.
+- Thinking blocks record the model that made them. A model that cannot read a block drops it. No error occurs. The new model loses that reasoning. It returns when you switch back.
+- Fable 5.2 reads Opus 5.5, Sonnet 5.5, and Haiku 5.5 blocks. Opus 5.5 and Sonnet 5.5 do not read Fable blocks. Haiku 5.5 reads none of the other three.
+- Claude Code, claude.ai, and the Agent SDK build the requests for you. You do not manage thinking blocks yourself.
 
 ## Optional prompt lines
 
