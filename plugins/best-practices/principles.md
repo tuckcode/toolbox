@@ -1,6 +1,8 @@
 # Prompt-writing principles
 
-Rules of thumb that hold across current Claude models. They come from the general best-practices page. A few come from the older Fable guides and are marked. Skills read this file. The session hook does not load it.
+Rules of thumb from the general best-practices page. The page says its general principles apply to Fable 5.2, Mythos 5.2, Fable 5.1, Mythos 5.1, Fable 5, and Mythos 5. It does not name Opus 5.5, Sonnet 5.5, or Haiku 5.5 in that sentence. Those models have their own guides, which `models.md` covers.
+
+A technique that names a model was measured on that model. Re-check it on your own tasks before you use it on another model. A few rules come from the older Fable guides and are marked. Skills read this file. The session hook does not load it.
 
 Sources are in `guidance-index.md`. Last checked: 2026-11-15.
 
