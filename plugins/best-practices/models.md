@@ -122,7 +122,9 @@ Read from each model's "What's new" page on 2026-11-15. These matter if you call
 
 Other Haiku 5.5 changes from Haiku 4.5: the same text counts as about 30 percent more tokens. Context is 1M tokens and output is 128k. The minimum cacheable prompt is 512 tokens on Opus 5.5, Sonnet 5.5, and Haiku 5.5.
 
-All four models: a response can start with a `thinking` block. Select content blocks by `type`, not by position. Pass thinking blocks back unchanged. Notes between tool calls come back as `thinking` blocks, and their text is empty at the default `display`.
+All four models: a response can start with a `thinking` block. Select content blocks by `type`, not by position. Pass thinking blocks back unchanged. Fable 5.2, Opus 5.5, and Sonnet 5.5 write progress notes between tool calls. Those notes come back as `thinking` blocks, and their text is empty at the default `display`. The thinking page does not list Haiku 5.5 among them.
+
+Thinking text is empty at the default `display` on all four. A progress note longer than a sentence or two comes back as a `thinking` block. A shorter remark stays `text`.
 
 ## Steering thinking
 
@@ -139,8 +141,14 @@ Read from the "Steering thinking" page.
 
 Read from the Fable 5.2 "What's new" page and the preserved-thinking page.
 
-- Thinking blocks record the model that made them. A model that cannot read a block drops it for that request. No error occurs, and the dropped block is not billed. The reasoning of those turns is lost to the new model. It returns when you switch back, if your code kept the history unchanged.
-- Fable 5.2 and Mythos 5.2 read each other's blocks and blocks from Opus 5.5, Sonnet 5.5, Haiku 5.5, and Fable 5.1. No other model reads Fable 5.2 blocks.
+- Thinking blocks record the model that made them. A model that cannot read a block drops it for that request. No error occurs, and the dropped block is not billed. The new model loses that reasoning. It returns when you switch back, if your code kept the history unchanged.
+- Who reads whose blocks (Claude API and Claude Models on Google Cloud, Google managed):
+  - **Fable 5.2** reads Opus 5.5, Sonnet 5.5, and Haiku 5.5 blocks.
+  - **Opus 5.5** reads Sonnet 5.5 and Haiku 5.5 blocks. It does not read Fable or Mythos blocks.
+  - **Sonnet 5.5** reads Haiku 5.5 blocks. It does not read Opus 5.5 or Fable blocks.
+  - **Haiku 5.5** reads none of the other three.
+  - Four models read Haiku 5.5 blocks: Opus 5.5, Sonnet 5.5, Fable 5.2, and Mythos 5.2.
+- Only Fable 5.2 and Mythos 5.2 read Fable 5.2 blocks. A switch from Fable 5.2 to any other model drops that reasoning.
 - Do not remove thinking blocks and do not keep a separate history for each model.
 - Fable 5.2 API limits: thinking is always on. `thinking: {"type": "disabled"}` and `budget_tokens` return a 400 error. Forced `tool_choice` (`any` or a named tool) also returns a 400 error.
 - Fable 5.2 fallback models after a refusal: Opus 4.8 and Opus 5.
