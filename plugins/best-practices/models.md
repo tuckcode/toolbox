@@ -105,6 +105,23 @@ The Opus 5.5 and Sonnet 5.5 guides say the Opus 5 and Sonnet 5 patterns remain a
 
 The plugin does not track Fable 5.1, Fable 5, Opus 5, Opus 4.8, or Sonnet 5.
 
+## API limits
+
+Read from each model's "What's new" page on 2026-11-15. These matter if you call the API yourself. Claude Code and the Agent SDK handle most of them.
+
+| Setting | Fable 5.2 | Opus 5.5 | Sonnet 5.5 | Haiku 5.5 |
+|---|---|---|---|---|
+| Turn thinking off | Not allowed. `disabled` returns a 400 error | Not allowed. `disabled` returns a 400 error | Use `thinking: {"type": "between_tools"}` at `high` or below. `disabled` returns a 400 error | `disabled` works at `high` or below |
+| `budget_tokens` | 400 error | 400 error | 400 error | 400 error |
+| Forced `tool_choice` | 400 error | 400 error | 400 error | Allowed. With thinking off, forcing the call can restore a skipped tool call |
+| Per-message effort | Yes (beta) | Yes (beta) | Yes (beta) | Yes, on supported platforms |
+| Fast mode | Yes | Yes | Not stated | Not stated |
+| Thinking blocks | Bound to the model and account | Bound to the model and conversation | Bound to the model and account | Bound to the account. All earlier blocks stay in context and count as input |
+
+Other Haiku 5.5 changes from Haiku 4.5: the same text counts as about 30 percent more tokens. `temperature`, `top_p`, and `top_k` return an error. Assistant prefill returns an error. Context is 1M tokens and output is 128k.
+
+All four models: a response can start with a `thinking` block. Select content blocks by `type`, not by position. Pass thinking blocks back unchanged. Notes between tool calls come back as `thinking` blocks, and their text is empty at the default `display`.
+
 ## Switching models
 
 Read from the Fable 5.2 "What's new" page and the preserved-thinking page.

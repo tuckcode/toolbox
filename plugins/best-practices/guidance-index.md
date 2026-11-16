@@ -164,6 +164,7 @@ Last checked: 2026-11-15 (raw pages)
 | Effort | The levels table and per-model section | Defaults and `xhigh` and `max` support in `models.md` |
 | Preserved thinking | The opening sections | Switching models in `models.md` |
 | Change tools or instructions | The opening sections | Not used. Harness builders only |
+| What's new: Opus 5.5, Sonnet 5.5, Haiku 5.5 | Breaking changes, behavior differences | API limits in `models.md` |
 
 ## Scope of this index
 
