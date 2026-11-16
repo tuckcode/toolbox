@@ -24,6 +24,8 @@ For a faster scan of skills, agents, and commands, run `/best-practices:audit-pr
 - **Stale notes:** dated notes about work that is done, moved files, or retired tools. Propose deletion.
 - **Forced work:** a rule that makes every session do extra work first, for example "run the audit before anything else". Propose "tell the user, then ask".
 - **Broad approval lists:** "ask before sending messages to anyone". Propose a list of the exact actions.
+- **Unused notes:** memory files that nobody has read for a long time. Anthropic's memory guidance says to delete these. Propose deletion and ask first.
+- **Cluttered memory:** several files for one topic, or no clear folder layout. Propose a merge.
 - **Repeated text:** the same rule loaded by more than one path. Propose keeping one.
 - **Hard style limits:** "20 words or fewer". They can make prose choppy on Fable 5.2. Flag them. Do not remove them without the user.
 

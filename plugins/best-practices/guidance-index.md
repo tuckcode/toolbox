@@ -170,6 +170,10 @@ Last checked: 2026-11-15 (raw pages)
 
 The plugin tracks Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5. Older guides (Fable 5.1, Fable 5, Opus 5, Opus 4.8, Sonnet 5) were read once on 2026-11-15. Only the code-review and literal-instruction findings carried over. See `models.md`.
 
+## Eleventh source: API pages read on 2026-11-15
+
+Read as prose, without code samples: mid-conversation system messages, thinking, refusals and fallback, Agent Skills overview, handling stop reasons, context windows, task budgets, context editing, and the memory tool. Findings are in `models.md`, `/run-to-done`, and `/prune-memory`.
+
 ## Not read
 
-Downloaded but not read: thinking, mid-conversation system messages, refusals and fallback, task budgets, context editing, compaction, prefix checks, per-message effort, the Fable 5.2 migration guide, and the Mythos 5.2 overview. Not downloaded: the support pages for the verification programs. The plugin takes harness facts only from pages marked read.
+Downloaded but not read: computer use, browser use, structured outputs, streaming, define tools, tool use overview, handle tool calls, web search, errors, thinking troubleshooting, extended thinking, compaction, secure deployment, models overview, prefix checks, per-message effort, most of the Fable 5.2 and Haiku 5.5 migration guides, and the Mythos 5.2 overview. Not downloaded: the support pages for the verification programs. The plugin takes harness facts only from pages marked read.

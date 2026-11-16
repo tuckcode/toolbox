@@ -126,6 +126,17 @@ All four models: a response can start with a `thinking` block. Select content bl
 
 Thinking text is empty at the default `display` on all four. A progress note longer than a sentence or two comes back as a `thinking` block. A shorter remark stays `text`.
 
+## Context, budgets, and refusals
+
+Read from the context windows, task budgets, context editing, and refusals pages.
+
+- All four models have a 1M-token context window. Haiku 5.5 charges more for prompts over 100,000 tokens.
+- None of the four receives the injected context-awareness tags. To give a model a budget, use task budgets (beta).
+- Task budgets do not work in Claude Code or Cowork. The minimum is 20,000 tokens. A budget that is too small for the task can make the model decline or cut the task short.
+- Haiku 5.5 keeps all earlier thinking blocks in context, and they count as input. Fable 5.2 does the same. Context editing can clear them.
+- Haiku 5.5 has no server-side fallback and no fallback credit after a refusal.
+- A refusal that arrives before any output is billed when its category is `bio`, `frontier_llm`, or `reasoning_extraction`. Asking a model to write out its reasoning invites a `reasoning_extraction` refusal and a charge.
+
 ## Steering thinking
 
 Read from the "Steering thinking" page.
