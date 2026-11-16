@@ -113,14 +113,27 @@ Read from each model's "What's new" page on 2026-11-15. These matter if you call
 |---|---|---|---|---|
 | Turn thinking off | Not allowed. `disabled` returns a 400 error | Not allowed. `disabled` returns a 400 error | Use `thinking: {"type": "between_tools"}` at `high` or below. `disabled` returns a 400 error | `disabled` works at `high` or below |
 | `budget_tokens` | 400 error | 400 error | 400 error | 400 error |
+| `temperature`, `top_p`, `top_k` | 400 error | 400 error | 400 error | 400 error |
+| Assistant prefill | 400 error | 400 error | 400 error | 400 error |
 | Forced `tool_choice` | 400 error | 400 error | 400 error | Allowed. With thinking off, forcing the call can restore a skipped tool call |
 | Per-message effort | Yes (beta) | Yes (beta) | Yes (beta) | Yes, on supported platforms |
 | Fast mode | Yes | Yes | Not stated | Not stated |
 | Thinking blocks | Bound to the model and account | Bound to the model and conversation | Bound to the model and account | Bound to the account. All earlier blocks stay in context and count as input |
 
-Other Haiku 5.5 changes from Haiku 4.5: the same text counts as about 30 percent more tokens. `temperature`, `top_p`, and `top_k` return an error. Assistant prefill returns an error. Context is 1M tokens and output is 128k.
+Other Haiku 5.5 changes from Haiku 4.5: the same text counts as about 30 percent more tokens. Context is 1M tokens and output is 128k. The minimum cacheable prompt is 512 tokens on Opus 5.5, Sonnet 5.5, and Haiku 5.5.
 
 All four models: a response can start with a `thinking` block. Select content blocks by `type`, not by position. Pass thinking blocks back unchanged. Notes between tool calls come back as `thinking` blocks, and their text is empty at the default `display`.
+
+## Steering thinking
+
+Read from the "Steering thinking" page.
+
+- Lower the effort level first. It is a calibrated control. A prompt line is sensitive to wording.
+- A standing "think less" line in a system prompt does not reliably work on Sonnet 5.5, Haiku 5.5, or Fable 5.2.
+- A one-time "Please think hard before responding" in a user message is a documented way to encourage thinking on that turn. A one-time "Answer directly without deliberating" does not reliably reduce thinking on Haiku 5.5 or Fable 5.2.
+- To change thinking for some turns only, use per-message effort. It keeps the prompt cache.
+- No effort level guarantees a thinking block on every request. In a tool loop, the first request after new input carries most of the reasoning.
+- Measure any prompt-based steering on your own tasks before you rely on it.
 
 ## Switching models
 

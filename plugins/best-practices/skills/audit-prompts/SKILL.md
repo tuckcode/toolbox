@@ -33,6 +33,8 @@ Search these files. Skip any that do not exist:
 - **Missing reason**: a rule with no reason and no scope. Propose adding one short reason.
 - **No-think rules**: "do not think", "skip thinking". They can make internal tags leak into the reply.
 
+A one-time "think hard" in a user message is a documented per-message lever. Flag only standing lines in system prompts, skills, agent files, and `CLAUDE.md`.
+
 A match in quoted text, an example, or code that processes such phrases is not an instruction. Leave it.
 
 ## Output
